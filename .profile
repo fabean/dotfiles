@@ -81,6 +81,8 @@ alias dc='drush cc all'
 # drush sql-sync omnibox site
 alias gimmeomnibox='drush sql-sync @p-omnibox_tv @local-omniboxtv -y'
 
+#drush sql-dump to file
+alias drushdump='drush sql-dump --result-file=starter.sql'
 
 # my path
 export PATH="/usr/local/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin:/Users/joshfabean/Development/android/sdk/tools:/Users/joshfabean/Development/android/sdk/platform-tools:$PATH"
