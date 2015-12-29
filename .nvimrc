@@ -45,6 +45,7 @@ set autoindent
 set incsearch
 set clipboard+=unnamed
 set noswapfile
+set t_Co=256
 
 "Nertree Toggle
 map <C-n> :NERDTreeToggle<CR>
