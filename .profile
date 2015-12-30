@@ -88,6 +88,9 @@ alias drushdump='drush sql-dump --result-file=starter.sql'
 alias addgolden='git remote add golden git@gitlab.codekoalas.com:golden/golden-drupal-core.git'
 alias addgolen='addgolden'
 
+#resource my profile
+alias sourceme='source ~/.profile'
+
 # my path
 export PATH="/usr/local/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin:/Users/joshfabean/Development/android/sdk/tools:/Users/joshfabean/Development/android/sdk/platform-tools:$PATH"
 
