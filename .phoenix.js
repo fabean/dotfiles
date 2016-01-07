@@ -10,7 +10,7 @@ var increment = 0.05;
 /* Position */
 
 var Position = {
-
+  
   central: function(frame, window) {
 
     return {
@@ -134,6 +134,30 @@ Window.prototype.grid = function(x, y, reverse) {
     height: (frame.height * y) - (2 * margin)
 
   });
+
+  var position = reverse ? Position.topRight(frame, newWindowFrame, margin) :
+    Position.topLeft(frame, newWindowFrame, margin);
+
+  this.setFrame(_(newWindowFrame).extend(position));
+}
+
+Window.prototype.snapSize = function(axis) {
+Phoenix.log(axis);
+var modalmessage = new Modal();
+modalmessage.message = 'test';
+modal.duration = 2;
+modal.show();
+  var frame = this.screen().visibleFrameInRectangle();
+
+  if (axis === 'x') {
+   var newWindowFrame = _(this.frame()).extend({
+     width: (frame.width)
+   });
+  } else {
+   var newWindowFrame = _(this.frame()).extend({
+     height: (frame.height)
+   }); 
+  }
 
   var position = reverse ? Position.topRight(frame, newWindowFrame, margin) :
     Position.topLeft(frame, newWindowFrame, margin);
@@ -281,6 +305,16 @@ keys.push(Phoenix.bind(',', controlAltShift, function() {
 keys.push(Phoenix.bind('.', controlAltShift, function() {
 
   Window.focusedWindow() && Window.focusedWindow().decreaseHeight();
+}));
+
+// make full width but same height
+keys.push(Phoenix.bind('z', controlCommandShift, function() {
+var modalmessage = new Modal();
+modalmessage.message = 'test';
+modal.duration = 2;
+modal.show();
+
+  Window.focusedWindow() && Window.focusedWindow().snapSize('x');
 }));
 
 function focusApp(name) {

@@ -46,6 +46,8 @@ set incsearch
 set clipboard+=unnamed
 set noswapfile
 set t_Co=256
+set hidden
+set relativenumber
 
 "Nertree Toggle
 map <C-n> :NERDTreeToggle<CR>
@@ -54,7 +56,11 @@ let NERDTreeShowHidden=1
 " enable all Python syntax highlighting features
 let python_highlight_all = 1
 
-"Ctrl + Left and Right switch buffers
+"Option + Left and Right switch buffers
+"execute "set <M-Right>=\e\eC"
+"execute "set <M-Left>=\e\eD"
 nnoremap <silent> <C-Right> :bnext<CR>
 nnoremap <silent> <C-Left> :bprevious<CR>
 nnoremap <silent> <C-Del> :bd
+":h i_CTRL-V
+
