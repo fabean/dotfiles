@@ -6,6 +6,8 @@ blackText='\e[1;30m'
 whitebg='\e[47m'
 
 #echo -e "${hashes}███████████████████████████████████████████████████████████████████████████████████████████████████████████████████${NC}"
+#echo "${yellow} Only things that are hard are worth having ${NC}"
+/usr/local/bin/node /Users/joshfabean/Git/profile-text/index.js
 
 # run NVIM instead of VIM
 alias vim='nvim'

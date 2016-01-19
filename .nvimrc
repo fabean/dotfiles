@@ -14,6 +14,8 @@ Plug 'jeetsukumaran/vim-filebeagle'
 Plug 'bling/vim-airline'
 Plug 'scrooloose/nerdtree'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 
 "HTML & CSS
 Plug 'hail2u/vim-css3-syntax'
@@ -25,6 +27,7 @@ Plug 'digitaltoad/vim-jade'
 "Javascript
 Plug 'pangloss/vim-javascript'
 Plug 'jelera/vim-javascript-syntax'
+Plug 'leafgarland/typescript-vim'
 
 "PHP
 Plug 'StanAngeloff/php.vim'
