@@ -7,6 +7,7 @@ endif
 
 call plug#begin()
 " Plugins
+Plug 'scrooloose/syntastic'
 Plug 'blueshirts/darcula'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
@@ -16,6 +17,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+Plug 'mhinz/vim-grepper'
 
 "HTML & CSS
 Plug 'hail2u/vim-css3-syntax'
@@ -28,10 +30,16 @@ Plug 'digitaltoad/vim-jade'
 Plug 'pangloss/vim-javascript'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'leafgarland/typescript-vim'
+Plug 'moll/vim-node'
+
 
 "PHP
 Plug 'StanAngeloff/php.vim'
 Plug 'tanarurkerem/drupal-snippets'
+
+"Stupid Coffee Script Because dummies
+Plug 'kchmck/vim-coffee-script'
+
 
 call plug#end()
 let g:airline#extensions#tabline#enabled = 1
@@ -51,6 +59,8 @@ set noswapfile
 set t_Co=256
 set hidden
 set relativenumber
+set list listchars=tab:»·,trail:·,nbsp:·
+
 
 "Nertree Toggle
 map <C-n> :NERDTreeToggle<CR>
