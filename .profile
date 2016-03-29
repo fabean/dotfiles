@@ -105,6 +105,9 @@ alias gpod='g pull origin dev'
 alias gpos='g pull origin staging'
 alias gpop='g pull origin production'
 
+# drush commands are hard?
+alias stagefileproxy='drush variable-set stage_file_proxy_origin'
+alias themedebug='drush vset theme_debug 1'
 
 # my path
 export PATH="/usr/local/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin:/Users/joshfabean/Development/android/sdk/tools:/Users/joshfabean/Development/android/sdk/platform-tools:$PATH"
