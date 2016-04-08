@@ -40,6 +40,9 @@ Plug 'tanarurkerem/drupal-snippets'
 "Stupid Coffee Script Because dummies
 Plug 'kchmck/vim-coffee-script'
 
+"Git plugin
+Plug 'tpope/vim-fugitive'
+
 
 call plug#end()
 let g:airline#extensions#tabline#enabled = 1
@@ -74,6 +77,9 @@ let python_highlight_all = 1
 "execute "set <M-Left>=\e\eD"
 nnoremap <silent> <C-Right> :bnext<CR>
 nnoremap <silent> <C-Left> :bprevious<CR>
-nnoremap <silent> <C-Del> :bd
+nnoremap <silent> <C-Del> :bd<CR>
+
+"sort scss alphabetically
+nnoremap <C-a> :g#\({\n\)\@<=#.,/\.*[{}]\@=/-1 sort<CR>
 ":h i_CTRL-V
 
