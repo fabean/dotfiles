@@ -1,0 +1,16 @@
+# http://editorconfig.org/
+root = true
+
+# default for everything
+[*]
+charset = utf-8
+indent_style = space
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# 2 spaces for basically everything
+[*.{html,jade,php,scss,css,js,info,module,inc}]
+indent_size = 2
+
+[Makefile]
+indent_style = tab
