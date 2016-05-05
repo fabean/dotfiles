@@ -11,6 +11,8 @@ whitebg='\e[47m'
 
 # run NVIM instead of VIM
 alias vim='nvim'
+# fix my typos
+alias bim='nvim'
 # rerun last command with sudo in front (I dont think this works)
 alias please='eval "sudo $(fc -ln -1)"'
 
