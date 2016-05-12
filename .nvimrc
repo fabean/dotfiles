@@ -18,6 +18,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'mhinz/vim-grepper'
+Plug 'tomtom/tcomment_vim'
 
 "HTML & CSS
 Plug 'hail2u/vim-css3-syntax'
@@ -34,7 +35,7 @@ Plug 'moll/vim-node'
 
 
 "PHP
-Plug 'StanAngeloff/php.vim'
+Plug 'shawncplus/phpcomplete.vim'
 Plug 'tanarurkerem/drupal-snippets'
 
 "Stupid Coffee Script Because dummies
@@ -83,3 +84,6 @@ nnoremap <silent> <C-Del> :bd<CR>
 nnoremap <C-a> :g#\({\n\)\@<=#.,/\.*[{}]\@=/-1 sort<CR>
 ":h i_CTRL-V
 
+"Make TComment work as I expect
+noremap <leader>/ :TComment <CR>
+vmap <leader>/ :TCommentBlock<CR>
