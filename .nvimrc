@@ -33,7 +33,6 @@ Plug 'jelera/vim-javascript-syntax'
 Plug 'leafgarland/typescript-vim'
 Plug 'moll/vim-node'
 
-
 "PHP
 Plug 'shawncplus/phpcomplete.vim'
 Plug 'tanarurkerem/drupal-snippets'
@@ -44,6 +43,9 @@ Plug 'kchmck/vim-coffee-script'
 "Git plugin
 Plug 'tpope/vim-fugitive'
 
+"Markdown
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
 
 call plug#end()
 let g:airline#extensions#tabline#enabled = 1

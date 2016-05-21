@@ -120,5 +120,3 @@ export NVM_DIR="/Users/joshfabean/.nvm"
 export ANDROID_HOME="/usr/local/opt/android-sdk"
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/platform-tools
-
-export PATH="$PATH:/Applications/DevDesktop/drush"
