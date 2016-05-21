@@ -46,6 +46,7 @@ Plug 'tpope/vim-fugitive'
 "Markdown
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
+let g:vim_markdown_folding_disabled = 1
 
 call plug#end()
 let g:airline#extensions#tabline#enabled = 1
