@@ -13,12 +13,17 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'jeetsukumaran/vim-filebeagle'
 Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'mhinz/vim-grepper'
 Plug 'tomtom/tcomment_vim'
+
+" Colorschemes
+Plug 'whatyouhide/vim-gotham'
+Plug 'flazz/vim-colorschemes'
 
 "HTML & CSS
 Plug 'hail2u/vim-css3-syntax'
@@ -32,6 +37,11 @@ Plug 'pangloss/vim-javascript'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'leafgarland/typescript-vim'
 Plug 'moll/vim-node'
+Plug 'ternjs/tern_for_vim', { 'do': 'npm install && npm install -g tern' }
+Plug 'samuelsimoes/vim-jsx-utils'
+Plug 'mlaursen/vim-react-snippets'
+Plug 'alampros/vim-react-keywords'
+Plug 'mxw/vim-jsx'
 
 "PHP
 Plug 'shawncplus/phpcomplete.vim'
