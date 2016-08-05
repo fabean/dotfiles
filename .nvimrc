@@ -25,6 +25,10 @@ Plug 'tomtom/tcomment_vim'
 Plug 'whatyouhide/vim-gotham'
 Plug 'flazz/vim-colorschemes'
 
+" Syntax Checking
+Plug 'scrooloose/syntastic'
+Plug 'neomake/neomake', { 'on': 'Neomake' }
+
 "HTML & CSS
 Plug 'hail2u/vim-css3-syntax'
 Plug 'othree/html5.vim'
@@ -42,11 +46,14 @@ Plug 'samuelsimoes/vim-jsx-utils'
 Plug 'mlaursen/vim-react-snippets'
 Plug 'alampros/vim-react-keywords'
 Plug 'mxw/vim-jsx'
+Plug 'carlitux/deoplete-ternjs'
 
 "PHP
 Plug 'shawncplus/phpcomplete.vim'
 Plug 'tanarurkerem/drupal-snippets'
 
+" Python Plugins
+Plug 'zchee/deoplete-jedi'
 "Stupid Coffee Script Because dummies
 Plug 'kchmck/vim-coffee-script'
 
@@ -58,8 +65,16 @@ Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 let g:vim_markdown_folding_disabled = 1
 
+" Donnie says this is important
+function! DoRemote(arg)
+  UpdateRemotePlugins
+endfunction
+Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+
 call plug#end()
 let g:airline#extensions#tabline#enabled = 1
+
+autocmd! BufWritePost * Neomake
 
 syntax on
 colorscheme darcula
@@ -78,6 +93,26 @@ set hidden
 set relativenumber
 set list listchars=tab:»·,trail:·,nbsp:·
 
+"deoplete stuff
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_ignore_case = 1
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#enable_camel_case = 1
+let g:deoplete#enable_refresh_always = 1
+let g:deoplete#max_abbr_width = 0
+let g:deoplete#max_menu_width = 0
+let g:deoplete#omni#input_patterns = get(g:,'deoplete#omni#input_patterns',{})
+let g:deoplete#omni#input_patterns.java = [
+    \'[^. \t0-9]\.\w*',
+    \'[^. \t0-9]\->\w*',
+    \'[^. \t0-9]\::\w*',
+    \]
+let g:deoplete#omni#input_patterns.jsp = ['[^. \t0-9]\.\w*']
+let g:deoplete#omni#input_patterns.php = '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+let g:deoplete#ignore_sources = {}
+let g:deoplete#ignore_sources.java = ['omni']
+call deoplete#custom#set('javacomplete2', 'mark', '')
+call deoplete#custom#set('_', 'matchers', ['matcher_full_fuzzy'])
 
 "Nertree Toggle
 map <C-n> :NERDTreeToggle<CR>
