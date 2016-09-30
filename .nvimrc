@@ -77,6 +77,7 @@ Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
 
 call plug#end()
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#neomake#enabled = 0
 
 autocmd! BufWritePost * Neomake
 
@@ -96,6 +97,9 @@ set t_Co=256
 set hidden
 set relativenumber
 set list listchars=tab:»·,trail:·,nbsp:·
+
+" add .p8 as lua for pico-8
+au BufNewFile,BufRead *.p8 set filetype=lua
 
 "deoplete stuff
 let g:deoplete#enable_at_startup = 1
