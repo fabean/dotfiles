@@ -60,6 +60,10 @@ Plug 'kchmck/vim-coffee-script'
 "Git plugin
 Plug 'tpope/vim-fugitive'
 
+" Lua
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-lua-ftplugin'
+
 "Markdown
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
