@@ -95,6 +95,8 @@ if [ -f /Users/joshfabean/.tnsrc ]; then
     source /Users/joshfabean/.tnsrc
 fi
 ###-tns-completion-end-###
-
+# Gotham Shell
+GOTHAM_SHELL="$HOME/.config/gotham/gotham.sh"
+[[ -s $GOTHAM_SHELL ]] && source $GOTHAM_SHELL
 export NVM_DIR="/Users/joshfabean/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
