@@ -82,7 +82,7 @@ let g:airline#extensions#neomake#enabled = 0
 autocmd! BufWritePost * Neomake
 
 syntax on
-colorscheme darcula
+colorscheme gotham
 set tabstop=2
 set expandtab
 set shiftwidth=2
@@ -97,8 +97,10 @@ set t_Co=256
 set hidden
 set relativenumber
 set list listchars=tab:»·,trail:·,nbsp:·
+set termguicolors
 
-" add .p8 as lua for pico-8
+let g:airline_theme="gotham" 
+"add .p8 as lua for pico-8
 au BufNewFile,BufRead *.p8 set filetype=lua
 
 "deoplete stuff
