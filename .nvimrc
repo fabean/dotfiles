@@ -17,7 +17,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+"Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'mhinz/vim-grepper'
 Plug 'tomtom/tcomment_vim'
 
@@ -41,16 +41,22 @@ Plug 'pangloss/vim-javascript'
 Plug 'jelera/vim-javascript-syntax'
 Plug 'leafgarland/typescript-vim'
 Plug 'moll/vim-node'
-Plug 'ternjs/tern_for_vim', { 'do': 'npm install && npm install -g tern' }
 Plug 'samuelsimoes/vim-jsx-utils'
 Plug 'mlaursen/vim-react-snippets'
 Plug 'alampros/vim-react-keywords'
 Plug 'mxw/vim-jsx'
-Plug 'carlitux/deoplete-ternjs'
+Plug 'posva/vim-vue'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
 
 "PHP
-Plug 'shawncplus/phpcomplete.vim'
 Plug 'tanarurkerem/drupal-snippets'
+Plug 'jaredly/vim-debug'
+Plug 'padawan-php/deoplete-padawan'
+Plug 'shawncplus/phpcomplete.vim'
 
 " Python Plugins
 Plug 'zchee/deoplete-jedi'
@@ -80,6 +86,18 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#neomake#enabled = 0
 
 autocmd! BufWritePost * Neomake
+
+if has("autocmd")
+  " Drupal *.module and *.install files.
+  augroup module
+    autocmd BufRead,BufNewFile *.module set filetype=php
+    autocmd BufRead,BufNewFile *.install set filetype=php
+    autocmd BufRead,BufNewFile *.test set filetype=php
+    autocmd BufRead,BufNewFile *.inc set filetype=php
+    autocmd BufRead,BufNewFile *.profile set filetype=php
+    autocmd BufRead,BufNewFile *.view set filetype=php
+  augroup END
+endif
 
 syntax on
 colorscheme gotham
@@ -118,12 +136,20 @@ let g:deoplete#omni#input_patterns.java = [
     \'[^. \t0-9]\::\w*',
     \]
 let g:deoplete#omni#input_patterns.jsp = ['[^. \t0-9]\.\w*']
-let g:deoplete#omni#input_patterns.php = '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+" let g:deoplete#omni#input_patterns.php = '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 let g:deoplete#ignore_sources = {}
 let g:deoplete#ignore_sources.java = ['omni']
+let g:deoplete#omni#functions = {}
+let g:deoplete#omni#functions.javascript = [
+      \ 'tern#Complete',
+      \]
+let g:deoplete#omni#input_patterns.javascript = '[^. \t]\.\w*'
 call deoplete#custom#set('javacomplete2', 'mark', '')
 call deoplete#custom#set('_', 'matchers', ['matcher_full_fuzzy'])
-
+"call deoplete#custom#set('omni', 'min_pattern_length', 0)
+inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
+call deoplete#sources#padawan#RestartServer()
 "Nertree Toggle
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
