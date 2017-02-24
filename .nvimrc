@@ -7,7 +7,7 @@ endif
 
 call plug#begin()
 " Plugins
-Plug 'scrooloose/syntastic'
+" Plug 'vim-lumiliet/vim-twigsyntastic/syntastic'
 Plug 'blueshirts/darcula'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
@@ -20,13 +20,14 @@ Plug 'editorconfig/editorconfig-vim'
 "Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'mhinz/vim-grepper'
 Plug 'tomtom/tcomment_vim'
+Plug 'lumiliet/vim-twig'
+Plug 'roxma/nvim-completion-manager'
 
 " Colorschemes
 Plug 'whatyouhide/vim-gotham'
 Plug 'flazz/vim-colorschemes'
 
 " Syntax Checking
-Plug 'scrooloose/syntastic'
 Plug 'neomake/neomake', { 'on': 'Neomake' }
 
 "HTML & CSS
@@ -49,19 +50,15 @@ Plug 'posva/vim-vue'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'] }
-Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] }
+" Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
 
 "PHP
 Plug 'tanarurkerem/drupal-snippets'
 Plug 'jaredly/vim-debug'
-Plug 'padawan-php/deoplete-padawan'
-Plug 'shawncplus/phpcomplete.vim'
-
+Plug 'roxma/nvim-cm-php-language-server',  {'do': 'composer install && composer run-script parse-stubs'}
 " Python Plugins
-Plug 'zchee/deoplete-jedi'
-"Stupid Coffee Script Because dummies
-Plug 'kchmck/vim-coffee-script'
+" Plug 'zchee/deoplete-jedi'
 
 "Git plugin
 Plug 'tpope/vim-fugitive'
@@ -79,7 +76,7 @@ let g:vim_markdown_folding_disabled = 1
 function! DoRemote(arg)
   UpdateRemotePlugins
 endfunction
-Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+" Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
 
 call plug#end()
 let g:airline#extensions#tabline#enabled = 1
@@ -117,39 +114,38 @@ set relativenumber
 set list listchars=tab:»·,trail:·,nbsp:·
 set termguicolors
 
-let g:airline_theme="gotham" 
+let g:airline_theme="gotham"
 "add .p8 as lua for pico-8
 au BufNewFile,BufRead *.p8 set filetype=lua
 
 "deoplete stuff
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_ignore_case = 1
-let g:deoplete#enable_smart_case = 1
-let g:deoplete#enable_camel_case = 1
-let g:deoplete#enable_refresh_always = 1
-let g:deoplete#max_abbr_width = 0
-let g:deoplete#max_menu_width = 0
-let g:deoplete#omni#input_patterns = get(g:,'deoplete#omni#input_patterns',{})
-let g:deoplete#omni#input_patterns.java = [
-    \'[^. \t0-9]\.\w*',
-    \'[^. \t0-9]\->\w*',
-    \'[^. \t0-9]\::\w*',
-    \]
-let g:deoplete#omni#input_patterns.jsp = ['[^. \t0-9]\.\w*']
+" let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_ignore_case = 1
+" let g:deoplete#enable_smart_case = 1
+" let g:deoplete#enable_camel_case = 1
+" let g:deoplete#enable_refresh_always = 1
+" let g:deoplete#max_abbr_width = 0
+" let g:deoplete#max_menu_width = 0
+" let g:deoplete#omni#input_patterns = get(g:,'deoplete#omni#input_patterns',{})
+" let g:deoplete#omni#input_patterns.java = [
+    " \'[^. \t0-9]\.\w*',
+    " \'[^. \t0-9]\->\w*',
+    " \'[^. \t0-9]\::\w*',
+    " \]
+" let g:deoplete#omni#input_patterns.jsp = ['[^. \t0-9]\.\w*']
 " let g:deoplete#omni#input_patterns.php = '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-let g:deoplete#ignore_sources = {}
-let g:deoplete#ignore_sources.java = ['omni']
-let g:deoplete#omni#functions = {}
-let g:deoplete#omni#functions.javascript = [
-      \ 'tern#Complete',
-      \]
-let g:deoplete#omni#input_patterns.javascript = '[^. \t]\.\w*'
-call deoplete#custom#set('javacomplete2', 'mark', '')
-call deoplete#custom#set('_', 'matchers', ['matcher_full_fuzzy'])
+" let g:deoplete#ignore_sources = {}
+" let g:deoplete#ignore_sources.java = ['omni']
+" let g:deoplete#omni#functions = {}
+" let g:deoplete#omni#functions.javascript = [
+      " \ 'tern#Complete',
+      " \]
+" let g:deoplete#omni#input_patterns.javascript = '[^. \t]\.\w*'
+" call deoplete#custom#set('javacomplete2', 'mark', '')
+" call deoplete#custom#set('_', 'matchers', ['matcher_full_fuzzy'])
 "call deoplete#custom#set('omni', 'min_pattern_length', 0)
-inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
-call deoplete#sources#padawan#RestartServer()
+" inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
+" inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
 "Nertree Toggle
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
@@ -171,3 +167,13 @@ nnoremap <C-a> :g#\({\n\)\@<=#.,/\.*[{}]\@=/-1 sort<CR>
 "Make TComment work as I expect
 noremap <leader>/ :TComment <CR>
 vmap <leader>/ :TCommentBlock<CR>
+
+"Syntastic default settings
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0

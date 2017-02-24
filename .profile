@@ -108,6 +108,9 @@ ddrush() {
 dlogin() {
   docker exec -ti $1 /bin/bash
 }
+# I keep typing the R so why not
+alias docker-composer='docker-compose'
+
 
 #todo.sh
 alias todo='todo.sh'
@@ -130,7 +133,7 @@ alias themedebug='drush vset theme_debug 1'
 alias pico8='/Applications/PICO-8.app/Contents/MacOS/pico8'
 
 # my path
-export PATH="/usr/local/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin:/Users/joshfabean/Development/android/sdk/tools:/Users/joshfabean/Development/android/sdk/platform-tools:/Users/joshfabean/.composer/vendor/bin:$PATH"
+export PATH="/usr/local/bin/php:/usr/local/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin:/Users/joshfabean/Development/android/sdk/tools:/Users/joshfabean/Development/android/sdk/platform-tools:/Users/joshfabean/.composer/vendor/bin:$PATH"
 
 export NVM_DIR="/Users/joshfabean/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
