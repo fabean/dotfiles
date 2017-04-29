@@ -1,19 +1,13 @@
-source ~/.profile
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/joshfabean/.oh-my-zsh
-export EDITOR=vim
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Path to your oh-my-zsh installation.
-export ZSH=/Users/joshfabean/.oh-my-zsh
+  export ZSH=/home/josh/.oh-my-zsh
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-#ZSH_THEME="agnoster"
-ZSH_THEME="avit"
+# Set name of the theme to load. Optionally, if you set this to "random"
+# it'll load a random theme each time that oh-my-zsh is loaded.
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+ZSH_THEME="agnoster"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -59,14 +53,11 @@ ZSH_THEME="avit"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
-# User configuration
-
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-# export MANPATH="/usr/local/man:$MANPATH"
-
 source $ZSH/oh-my-zsh.sh
 
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -82,7 +73,7 @@ source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 # export ARCHFLAGS="-arch x86_64"
 
 # ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
+# export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -92,14 +83,20 @@ source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+#
+dlogin() {
+  docker exec -ti $1 /bin/bash
+}
+alias docker-composer='docker-compose'
 
-###-tns-completion-start-###
-if [ -f /Users/joshfabean/.tnsrc ]; then
-    source /Users/joshfabean/.tnsrc
-fi
-###-tns-completion-end-###
-# Gotham Shell
-GOTHAM_SHELL="$HOME/.config/gotham/gotham.sh"
-[[ -s $GOTHAM_SHELL ]] && source $GOTHAM_SHELL
-export NVM_DIR="/Users/joshfabean/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+alias gs='g status'
+#alias ga 'g add'
+alias ci='composer install'
+alias cu='composer update'
+alias vim='nvim'
+
+
+[ -z "NVM_DIR" ] && export NVM_DIR "$HOME/.nvm"
+source /usr/share/nvm/nvm.sh
+source /usr/share/nvm/bash_completion
+source /usr/share/nvm/install-nvm-exec
