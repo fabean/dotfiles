@@ -10,10 +10,6 @@ exec --no-startup-id xss-lock -- i3lock-wrapper
 exec --no-startup-id xset r rate 250 25
 exec --no-startup-id xset b off
 exec --no-startup-id setxkbmap -option caps:escape
-exec --no-startup-id /home/igneo676/bin/libinput-gestures
-exec --no-startup-id /home/igneo676/bin/pullover
-exec --no-startup-id /home/igneo676/bin/mail-checker
-exec --no-startup-id xcalib /usr/share/color/icc/colord/D6500XYZLUT+MTX.icc
 exec --no-startup-id nightshift -l 39.0315533:-94.4954291 -d
 
 font pango:Roboto Mono 10
