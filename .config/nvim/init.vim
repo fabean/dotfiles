@@ -22,7 +22,8 @@ Plug 'mhinz/vim-grepper'
 Plug 'tomtom/tcomment_vim'
 Plug 'lumiliet/vim-twig'
 Plug 'roxma/nvim-completion-manager'
-
+"Plug 'chrisbra/Colorizer'
+Plug 'ap/vim-css-color'
 " Colorschemes
 Plug 'whatyouhide/vim-gotham'
 Plug 'flazz/vim-colorschemes'
@@ -68,9 +69,7 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-lua-ftplugin'
 
 "Markdown
-Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
-let g:vim_markdown_folding_disabled = 1
+Plug 'suan/vim-instant-markdown'
 
 " Donnie says this is important
 function! DoRemote(arg)
@@ -79,6 +78,10 @@ endfunction
 " Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
 
 call plug#end()
+"markdown don't instant open preview window
+":InstandMarkdownPreview to view preview
+let g:instant_markdown_autostart = 0
+
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#neomake#enabled = 0
 
@@ -106,7 +109,7 @@ set hlsearch
 set number
 set autoindent
 set incsearch
-set clipboard+=unnamed
+set clipboard+=unnamedplus
 set noswapfile
 set t_Co=256
 set hidden
@@ -177,3 +180,5 @@ set statusline+=%*
 " let g:syntastic_auto_loc_list = 1
 " let g:syntastic_check_on_open = 1
 " let g:syntastic_check_on_wq = 0
+"
+autocmd BufNewFile,BufRead *.theme   set syntax=php
