@@ -43,6 +43,10 @@ bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
+#change screen layout
+bindsym $mod+Shift+m exec --no-startup-id /home/josh/.screenlayout/work-2-monitors.sh
+bindsym $mod+Shift+n exec --no-startup-id /home/josh/.screenlayout/just-lappy.sh
+
 # move focused window
 bindsym $mod+Shift+j move left
 bindsym $mod+Shift+k move down
@@ -133,7 +137,7 @@ for_window [instance="crx_gaedmjdfmmahhbjefcbgaolhhanlaolb"] floating enable
 for_window [class="Google-chrome" instance="crx_nckgahadagoaajjgafhacjanaoiihapd"] floating enable
 for_window [class="chrome_app_list"] floating enable
 
-assign [class="Pidgin"] "3: Chat"
+assign [class="Slack"] "3: Chat"
 
 new_window 1pixel
 #Hide border if 1 window
