@@ -1,4 +1,4 @@
-" Install Vim Plug if not installed
+
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -20,16 +20,16 @@ Plug 'editorconfig/editorconfig-vim'
 "Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'mhinz/vim-grepper'
 Plug 'tomtom/tcomment_vim'
-Plug 'lumiliet/vim-twig'
-Plug 'roxma/nvim-completion-manager'
+" Plug 'roxma/nvim-completion-manager'
 "Plug 'chrisbra/Colorizer'
 Plug 'ap/vim-css-color'
 " Colorschemes
 Plug 'whatyouhide/vim-gotham'
 Plug 'flazz/vim-colorschemes'
-
+Plug 'ludovicchabant/vim-gutentags'
 " Syntax Checking
 Plug 'neomake/neomake', { 'on': 'Neomake' }
+Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 
 "HTML & CSS
 Plug 'hail2u/vim-css3-syntax'
@@ -51,15 +51,20 @@ Plug 'posva/vim-vue'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'] }
-" Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
 
 "PHP
 Plug 'tanarurkerem/drupal-snippets'
-Plug 'jaredly/vim-debug'
-Plug 'roxma/nvim-cm-php-language-server',  {'do': 'composer install && composer run-script parse-stubs'}
+Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+Plug 'joonty/vdebug'
+Plug 'lumiliet/vim-twig'
+Plug 'StanAngeloff/php.vim'
+Plug 'noahfrederick/vim-composer'
+" Plug 'jaredly/vim-debug'
+Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
 " Python Plugins
-" Plug 'zchee/deoplete-jedi'
+Plug 'zchee/deoplete-jedi'
 
 "Git plugin
 Plug 'tpope/vim-fugitive'
@@ -75,7 +80,7 @@ Plug 'suan/vim-instant-markdown'
 function! DoRemote(arg)
   UpdateRemotePlugins
 endfunction
-" Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
 
 call plug#end()
 "markdown don't instant open preview window
@@ -99,6 +104,39 @@ if has("autocmd")
   augroup END
 endif
 
+let g:gutentags_ctags_tagfile = '.tags'
+let g:gutentags_ctags_executable_php = 'ctags --langmap=php:.engine.inc.module.theme.install.php --php-kinds=cdfi --fields=+l'
+
+" PHP
+augroup module
+  autocmd BufRead,BufNewFile *.module set filetype=php.drupal
+  autocmd BufRead,BufNewFile *.install set filetype=php.drupal
+  autocmd BufRead,BufNewFile *.test set filetype=php.drupal
+  autocmd BufRead,BufNewFile *.inc set filetype=php.drupal
+  autocmd BufRead,BufNewFile *.profile set filetype=php.drupal
+  autocmd BufRead,BufNewFile *.view set filetype=php.drupal
+augroup END
+
+autocmd FileType php,php.drupal LanguageClientStart
+
+autocmd CursorHold :call LanguageClient_textDocument_hover()<CR>
+autocmd FileType php,php.drupal nnoremap <silent> <C-]> :call LanguageClient_textDocument_definition()<CR>
+autocmd FileType php,php.drupal nnoremap <silent> <F9> :call LanguageClient_textDocument_rename()<CR>
+
+autocmd FileType php,php.drupal nnoremap <F8> <Plug>(composer-use)
+autocmd FileType php,php.drupal inoremap <F8> <Plug>(composer-use)
+
+function! PhpSyntaxOverride()
+  hi! def link phpDocTags  phpDefine
+  hi! def link phpDocParam phpType
+endfunction
+
+augroup phpSyntaxOverride
+  autocmd!
+  autocmd FileType php call PhpSyntaxOverride()
+augroup END
+
+
 syntax on
 colorscheme gotham
 set tabstop=2
@@ -116,39 +154,41 @@ set hidden
 set relativenumber
 set list listchars=tab:»·,trail:·,nbsp:·
 set termguicolors
+set tags=.tags,./tags,tags;
 
 let g:airline_theme="gotham"
 "add .p8 as lua for pico-8
 au BufNewFile,BufRead *.p8 set filetype=lua
 
 "deoplete stuff
-" let g:deoplete#enable_at_startup = 1
-" let g:deoplete#enable_ignore_case = 1
-" let g:deoplete#enable_smart_case = 1
-" let g:deoplete#enable_camel_case = 1
-" let g:deoplete#enable_refresh_always = 1
-" let g:deoplete#max_abbr_width = 0
-" let g:deoplete#max_menu_width = 0
-" let g:deoplete#omni#input_patterns = get(g:,'deoplete#omni#input_patterns',{})
-" let g:deoplete#omni#input_patterns.java = [
-    " \'[^. \t0-9]\.\w*',
-    " \'[^. \t0-9]\->\w*',
-    " \'[^. \t0-9]\::\w*',
-    " \]
-" let g:deoplete#omni#input_patterns.jsp = ['[^. \t0-9]\.\w*']
-" let g:deoplete#omni#input_patterns.php = '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-" let g:deoplete#ignore_sources = {}
-" let g:deoplete#ignore_sources.java = ['omni']
-" let g:deoplete#omni#functions = {}
-" let g:deoplete#omni#functions.javascript = [
-      " \ 'tern#Complete',
-      " \]
-" let g:deoplete#omni#input_patterns.javascript = '[^. \t]\.\w*'
-" call deoplete#custom#set('javacomplete2', 'mark', '')
-" call deoplete#custom#set('_', 'matchers', ['matcher_full_fuzzy'])
-"call deoplete#custom#set('omni', 'min_pattern_length', 0)
-" inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
-" inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_ignore_case = 1
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#enable_camel_case = 1
+let g:deoplete#enable_refresh_always = 1
+let g:deoplete#max_abbr_width = 0
+let g:deoplete#max_menu_width = 0
+let g:deoplete#omni#input_patterns = get(g:,'deoplete#omni#input_patterns',{})
+let g:deoplete#omni#input_patterns.java = [
+    \'[^. \t0-9]\.\w*',
+    \'[^. \t0-9]\->\w*',
+    \'[^. \t0-9]\::\w*',
+    \]
+let g:deoplete#omni#input_patterns.jsp = ['[^. \t0-9]\.\w*']
+let g:deoplete#ignore_sources = {}
+let g:deoplete#ignore_sources.java = ['omni']
+let g:deoplete#omni#functions = {}
+let g:deoplete#omni#functions.javascript = [
+      \ 'tern#Complete',
+      \]
+let g:deoplete#omni#input_patterns.javascript = '[^. \t]\.\w*'
+let g:deoplete#ignore_sources = get(g:, 'deoplete#ignore_sources', {})
+let g:deoplete#ignore_sources.php = ['omni']
+call deoplete#custom#set('javacomplete2', 'mark', '')
+call deoplete#custom#set('_', 'matchers', ['matcher_full_fuzzy'])
+call deoplete#custom#set('omni', 'min_pattern_length', 0)
+inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
 "Nertree Toggle
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
