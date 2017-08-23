@@ -12,7 +12,7 @@ exec --no-startup-id xset b off
 exec --no-startup-id setxkbmap -option caps:escape
 exec --no-startup-id nightshift -l 39.0315533:-94.4954291 -d
 
-font pango:Roboto Mono 10
+font pango:Liberation 12
 
 bindsym $mod+F7 exec --no-startup-id xset r rate 250 25 && xset b off && setxkbmap -option caps:escape
 
