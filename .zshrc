@@ -84,19 +84,9 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
-dlogin() {
-  docker exec -ti $1 /bin/bash
-}
-alias docker-composer='docker-compose'
-
-alias gs='g status'
-#alias ga 'g add'
-alias ci='composer install'
-alias cu='composer update'
-alias vim='nvim'
-
 
 [ -z "NVM_DIR" ] && export NVM_DIR "$HOME/.nvm"
 source /usr/share/nvm/nvm.sh
 source /usr/share/nvm/bash_completion
 source /usr/share/nvm/install-nvm-exec
+source /home/joshfabean/.profile
