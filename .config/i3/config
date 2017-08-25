@@ -134,13 +134,11 @@ for_window [class="Android SDK Manager" instance="Android SDK Manager"] floating
 for_window [class="Cb-exit" instance="cb-exit"] floating enable
 for_window [class="Cb-exit" instance="cb-exit"] border none
 
-for_window [class="Pidgin" instance="Pidgin"] floating enable
-
 for_window [instance="crx_gaedmjdfmmahhbjefcbgaolhhanlaolb"] floating enable
 for_window [class="Google-chrome" instance="crx_nckgahadagoaajjgafhacjanaoiihapd"] floating enable
 for_window [class="chrome_app_list"] floating enable
 
-assign [class="Slack"] "3: Chat"
+assign [class="Slack"] "3: "
 
 new_window 1pixel
 #Hide border if 1 window
