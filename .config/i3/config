@@ -32,7 +32,7 @@ bindsym $mod+F9 exec --no-startup-id rofi -fullscreen -show run
 bindsym $mod+space exec --no-startup-id rofi -fullscreen -show run
 
 # screenshot
-bindsym $mod+Shift+Control+3 exec --no-startup-id deepin-screenshot
+bindsym $mod+Shift+Control+4 exec --no-startup-id deepin-screenshot
 
 # change focus
 bindsym $mod+j focus left
