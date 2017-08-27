@@ -29,7 +29,8 @@ bindsym $mod+q kill
 bindsym XF86LaunchA exec --no-startup-id rofi -fullscreen -show run
 bindcode 225 exec --no-startup-id rofi -fullscreen -show run
 bindsym $mod+F9 exec --no-startup-id rofi -fullscreen -show run
-bindsym $mod+space exec --no-startup-id rofi -fullscreen -show run
+#bindsym $mod+space exec --no-startup-id rofi -fullscreen -show run
+bindsym $mod+space exec --no-startup-id rofi -show run
 
 # screenshot
 bindsym $mod+Shift+Control+3 exec --no-startup-id deepin-screenshot
