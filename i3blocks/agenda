@@ -1,3 +1,3 @@
 #!/bin/sh
 
-gcalcli agenda --calendar josh@codekoalas.com --calendar joshfabean@gmail.com --nocolor now | head -2 | tail -1
+gcalcli agenda --calendar josh@codekoalas.com --calendar joshfabean@gmail.com --nocolor --noallday --nostarted now | head -2 | tail -1
