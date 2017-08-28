@@ -89,3 +89,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 export EDITOR=nvim
+
+export ANDROID_HOME=/usr/local/opt/android-sdk
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
+export LC_ALL="en_US.UTF-8"
