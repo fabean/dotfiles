@@ -26,7 +26,7 @@ Plug 'ap/vim-css-color'
 " Colorschemes
 Plug 'whatyouhide/vim-gotham'
 Plug 'flazz/vim-colorschemes'
-Plug 'ludovicchabant/vim-gutentags'
+" Plug 'ludovicchabant/vim-gutentags'
 " Syntax Checking
 Plug 'neomake/neomake', { 'on': 'Neomake' }
 Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
