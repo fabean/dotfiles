@@ -18,6 +18,7 @@ alias gs='g status'
 alias ga='g add'
 alias gc='g commit'
 alias gcm='g commit -m'
+alias please='sudo !!'
 
 # networking
 alias myip='curl ip.appspot.com' # show public IP
@@ -33,6 +34,8 @@ alias docker-composer='docker-compose'
 
 # show my calendar
 alias mycal='gcalcli agenda --calendar josh@codekoalas.com --calendar joshfabean@gmail.com'
+
+alias terminus=/home/joshfabean/Code/vendor/bin/terminus
 
 # docker commands
 ddrupal() {
@@ -63,3 +66,6 @@ export NVM_DIR="/Users/joshfabean/.nvm"
 export ANDROID_HOME="/usr/local/opt/android-sdk"
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$HOME/Code/pantheon-tools
+export PATH=$PATH:$HOME/Code/vendor/bin
+export PATH=$PATH:$HOME/.config/composer/vendor/bin
