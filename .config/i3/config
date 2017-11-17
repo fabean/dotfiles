@@ -6,7 +6,7 @@ set $alt Mod1
 exec --no-startup-id nitrogen --restore ~/Wallpapers
 # exec --no-startup-id compton -b
 exec --no-startup-id nm-applet
-exec --no-startup-id xss-lock -- i3lock-wrapper
+exec --no-startup-id xss-lock -- i3lock-fancy
 exec --no-startup-id xset r rate 250 25
 exec --no-startup-id xset b off
 exec --no-startup-id setxkbmap -option caps:escape
@@ -24,6 +24,9 @@ bindsym $mod+Return exec --no-startup-id termite
 
 # kill focused window
 bindsym $mod+q kill
+
+# lock screen
+bindsym $mod+$alt+s exec i3lock-fancy
 
 # start dmenu (a program launcher)
 bindsym XF86LaunchA exec --no-startup-id rofi -fullscreen -show run
@@ -251,4 +254,4 @@ bindsym $mod1+Shift+p exec --no-startup-id echo "cycle pause" > ~/.config/mpv/co
 
 # Chrome special flags and others set in /etc/profiles.d/variables.sh like the following: --touch-devices=2 --force-device-scale-factor=2
 #
-exec --nostartup-id compton -b
+#exec --nostartup-id compton -b
