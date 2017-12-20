@@ -53,6 +53,7 @@ Plug 'honza/vim-snippets'
 Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'elmcast/elm-vim'
 
 "PHP
 Plug 'tanarurkerem/drupal-snippets'
