@@ -12,7 +12,7 @@ exec --no-startup-id xset b off
 exec --no-startup-id setxkbmap -option caps:escape
 exec --no-startup-id nightshift -l 39.0315533:-94.4954291 -d
 
-font pango:Liberation, FontAwesome 12
+font pango:FiraCode, FontAwesome 12
 
 bindsym $mod+F7 exec --no-startup-id xset r rate 250 25 && xset b off && setxkbmap -option caps:escape
 
@@ -29,9 +29,9 @@ bindsym $mod+q kill
 bindsym $mod+$alt+s exec i3lock-fancy
 
 # start dmenu (a program launcher)
-bindsym XF86LaunchA exec --no-startup-id rofi -fullscreen -show run
-bindcode 225 exec --no-startup-id rofi -fullscreen -show run
-bindsym $mod+F9 exec --no-startup-id rofi -fullscreen -show run
+bindsym XF86LaunchA exec --no-startup-id rofi -show run
+bindcode 225 exec --no-startup-id rofi -show run
+bindsym $mod+F9 exec --no-startup-id rofi -show run
 #bindsym $mod+space exec --no-startup-id rofi -fullscreen -show run
 bindsym $mod+space exec --no-startup-id rofi -show run
 
@@ -235,8 +235,9 @@ client.focused_inactive #073642 #073642 #93a1a1 #002b36
 client.unfocused #002b36 #002b36 #586e75 #002b36
 client.urgent #dc322f #dc322f #fdf6e3 #dc322f
 
-# launch messager (Pulse)
-bindsym $mod+Shift+t exec /opt/google/chrome/google-chrome --profile-directory=Default --app-id=nimjciaekjijpinhkhpmcbaoanjjojfi
+
+bindsym Control+k exec --no-startup-id echo "core.weechat */buffer_dmenu" >> $(find ~/.weechat -type p)
+
 
 # exec --no-startup-id xfce4-volumed-pulse
 # exec --no-startup-id pasystray
