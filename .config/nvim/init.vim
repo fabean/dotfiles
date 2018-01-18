@@ -56,14 +56,15 @@ Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'elmcast/elm-vim'
 
 "PHP
-Plug 'tanarurkerem/drupal-snippets'
-Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
-Plug 'joonty/vdebug'
+" Plug 'tanarurkerem/drupal-snippets'
+" Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+" Plug 'joonty/vdebug'
 Plug 'lumiliet/vim-twig'
-Plug 'StanAngeloff/php.vim'
-Plug 'noahfrederick/vim-composer'
+" Plug 'StanAngeloff/php.vim'
+" Plug 'noahfrederick/vim-composer'
 " Plug 'jaredly/vim-debug'
-Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
+" Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
+
 " Python Plugins
 Plug 'zchee/deoplete-jedi'
 
@@ -105,37 +106,7 @@ if has("autocmd")
   augroup END
 endif
 
-let g:gutentags_ctags_tagfile = '.tags'
-let g:gutentags_ctags_executable_php = 'ctags --langmap=php:.engine.inc.module.theme.install.php --php-kinds=cdfi --fields=+l'
-
-" PHP
-augroup module
-  autocmd BufRead,BufNewFile *.module set filetype=php.drupal
-  autocmd BufRead,BufNewFile *.install set filetype=php.drupal
-  autocmd BufRead,BufNewFile *.test set filetype=php.drupal
-  autocmd BufRead,BufNewFile *.inc set filetype=php.drupal
-  autocmd BufRead,BufNewFile *.profile set filetype=php.drupal
-  autocmd BufRead,BufNewFile *.view set filetype=php.drupal
-augroup END
-
-autocmd FileType php,php.drupal LanguageClientStart
-
 autocmd CursorHold :call LanguageClient_textDocument_hover()<CR>
-autocmd FileType php,php.drupal nnoremap <silent> <C-]> :call LanguageClient_textDocument_definition()<CR>
-autocmd FileType php,php.drupal nnoremap <silent> <F9> :call LanguageClient_textDocument_rename()<CR>
-
-autocmd FileType php,php.drupal nnoremap <F8> <Plug>(composer-use)
-autocmd FileType php,php.drupal inoremap <F8> <Plug>(composer-use)
-
-function! PhpSyntaxOverride()
-  hi! def link phpDocTags  phpDefine
-  hi! def link phpDocParam phpType
-endfunction
-
-augroup phpSyntaxOverride
-  autocmd!
-  autocmd FileType php call PhpSyntaxOverride()
-augroup END
 
 
 syntax on
