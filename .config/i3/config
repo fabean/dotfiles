@@ -146,6 +146,7 @@ for_window [class="^Pavucontrol$"] floating enable
 for_window [instance="crx_gaedmjdfmmahhbjefcbgaolhhanlaolb"] floating enable
 for_window [class="Google-chrome" instance="crx_nckgahadagoaajjgafhacjanaoiihapd"] floating enable
 for_window [class="chrome_app_list"] floating enable
+for_window [class="Plexamp"] floating enable
 
 # https://github.com/ValveSoftware/steam-for-linux/issues/1040
 for_window [class="^Steam$" title="^Friends$"] floating enable
@@ -161,6 +162,7 @@ for_window [title="^Steam Keyboard$"] floating enable
 
 
 assign [class="Slack"] $workSpace3
+assign [class="Plexamp"] $workSpace3
 
 new_window 1pixel
 #Hide border if 1 window
@@ -251,6 +253,7 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id "pulseaudio-ctl up ; pkill -RT
 bindsym XF86AudioMute exec --no-startup-id "pulseaudio-ctl mute ; pkill -RTMIN+1 i3blocks"
 bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
 bindsym XF86AudioPause exec --no-startup-id playerctl play-pause
+bindsym XF86AudioPlayPause exec --no-startup-id playerctl play-pause
 bindsym $mod1+Shift+p exec --no-startup-id echo "cycle pause" > ~/.config/mpv/control
 
 # Chrome special flags and others set in /etc/profiles.d/variables.sh like the following: --touch-devices=2 --force-device-scale-factor=2
