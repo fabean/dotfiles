@@ -49,6 +49,7 @@ Plug 'xolox/vim-lua-ftplugin'
 "Markdown
 Plug 'suan/vim-instant-markdown'
 
+Plug 'sbdchd/neoformat'
 " Donnie says this is important
 function! DoRemote(arg)
   UpdateRemotePlugins
