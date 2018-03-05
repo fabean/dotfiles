@@ -149,15 +149,9 @@ modules-right = xbacklight wlan cpu memory temperature battery volume date
 tray-position = right
 tray-padding = 0
 
-;wm-restack = i3
-
-;override-redirect = true
-
-;scroll-up = i3wm-wsnext
-;scroll-down = i3wm-wsprev
-
 cursor-click = pointer
 cursor-scroll = ns-resize
+
 
 
 [bar/dp2]
@@ -253,6 +247,118 @@ tray-padding = 0
 
 cursor-click = pointer
 cursor-scroll = ns-resize
+
+; Ubuntu Configs
+;
+;
+;
+
+[bar/ubuntudp0]
+monitor = ${env:MONITOR:DisplayPort-0}
+width = 100%
+height = 20
+radius = 0
+fixed-center = false
+background = ${colors.background}
+foreground = ${colors.foreground}
+line-size = 3
+line-color = #f00
+border-size = 0
+border-color = #000000
+padding-left = 0
+padding-right = 1
+module-margin-left = 1
+module-margin-right = 2
+font-0 = FiraCode:pixelsize=12;1
+font-1 = FontAwesome:pixelsize=12;2
+font-2 = "Wuncon Siji:pixelsize=12;1"
+modules-left = i3
+modules-center = mpd
+modules-right = xbacklight wlan cpu memory temperature battery volume date
+tray-position = right
+tray-padding = 0
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+[bar/ubuntudp1]
+monitor = ${env:MONITOR:DisplayPort-1}
+width = 100%
+height = 20
+radius = 0
+fixed-center = false
+background = ${colors.background}
+foreground = ${colors.foreground}
+line-size = 3
+line-color = #f00
+border-size = 0
+border-color = #000000
+padding-left = 0
+padding-right = 1
+module-margin-left = 1
+module-margin-right = 2
+font-0 = FiraCode:pixelsize=12;1
+font-1 = FontAwesome:pixelsize=12;2
+font-2 = "Wuncon Siji:pixelsize=12;1"
+modules-left = i3
+modules-center = mpd
+modules-right = xbacklight wlan cpu memory temperature battery volume date
+tray-position = right
+tray-padding = 0
+cursor-click = pointer
+
+[bar/ubuntuedpmulti]
+monitor = ${env:MONITOR:eDP}
+width = 100%
+height = 30
+radius = 0
+fixed-center = false
+background = ${colors.background}
+foreground = ${colors.foreground}
+line-size = 3
+line-color = #f00
+border-size = 0
+border-color = #000000
+padding-left = 0
+padding-right = 1
+module-margin-left = 1
+module-margin-right = 2
+font-0 = FiraCode:pixelsize=15;1
+font-1 = FontAwesome:pixelsize=15;2
+font-2 = "Wuncon Siji:pixelsize=15;1"
+modules-left = i3
+modules-center =
+modules-right =
+tray-position = right
+tray-padding = 0
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+[ibar/ubuntuedpsingle]
+monitor = ${env:MONITOR:eDP}
+width = 100%
+height = 30
+radius = 0
+fixed-center = false
+background = ${colors.background}
+foreground = ${colors.foreground}
+line-size = 3
+line-color = #f00
+border-size = 0
+border-color = #000000
+padding-left = 0
+padding-right = 1
+module-margin-left = 1
+module-margin-right = 2
+font-0 = FiraCode:pixelsize=15;1
+font-1 = FontAwesome:pixelsize=15;2
+font-2 = "Wuncon Siji:pixelsize=15;1"
+modules-left = i3
+modules-center = mpd
+modules-right = xbacklight wlan cpu memory temperature battery volume date
+tray-position = right
+tray-padding = 0
+cursor-click = pointer
+
 
 
 [module/xwindow]
@@ -408,7 +514,7 @@ format-disconnected =
 type = internal/date
 interval = 5
 
-date =
+date = " %Y-%m-%d"
 date-alt = " %Y-%m-%d"
 
 time = %H:%M
@@ -494,35 +600,6 @@ ramp-0 = 
 ramp-1 = 
 ramp-2 = 
 ramp-foreground = ${colors.foreground-alt}
-
-[module/powermenu]
-type = custom/menu
-
-expand-right = true
-
-format-spacing = 1
-
-label-open = 
-label-open-foreground = ${colors.secondary}
-label-close =  cancel
-label-close-foreground = ${colors.secondary}
-label-separator = |
-label-separator-foreground = ${colors.foreground-alt}
-
-menu-0-0 = reboot
-menu-0-0-exec = menu-open-1
-menu-0-1 = power off
-menu-0-1-exec = menu-open-2
-
-menu-1-0 = cancel
-menu-1-0-exec = menu-open-0
-menu-1-1 = reboot
-menu-1-1-exec = sudo reboot
-
-menu-2-0 = power off
-menu-2-0-exec = sudo poweroff
-menu-2-1 = cancel
-menu-2-1-exec = menu-open-0
 
 [settings]
 screenchange-reload = true
