@@ -51,8 +51,8 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 #change screen layout
-bindsym $mod+Shift+m exec --no-startup-id /home/joshfabean/.screenlayout/work-2-monitors.sh
-bindsym $mod+Shift+n exec --no-startup-id /home/joshfabean/.screenlayout/just-lappy.sh
+bindsym $mod+Shift+m exec --no-startup-id /home/joshfabean/.screenlayout/dual-screens.sh
+bindsym $mod+Shift+n exec --no-startup-id /home/joshfabean/.screenlayout/single-screens.sh
 
 # move focused window
 bindsym $mod+Shift+j move left
