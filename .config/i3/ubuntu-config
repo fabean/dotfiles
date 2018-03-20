@@ -10,6 +10,8 @@ exec --no-startup-id xset r rate 250 25
 exec --no-startup-id xset b off
 exec --no-startup-id setxkbmap -option caps:escape
 exec --no-startup-id nightshift -l 39.0315533:-94.4954291 -d
+exec --no-startup-id synclient TapButton1=0
+exec --no-startup-id synclient TapButton2=0
 #exec --no-startup-id setxkbmap -model apple_laptop -layout us -variant dvp
 
 font pango:FiraCode, FontAwesome 12
