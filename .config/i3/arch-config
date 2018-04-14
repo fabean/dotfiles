@@ -11,7 +11,7 @@ exec --no-startup-id xset r rate 250 25
 exec --no-startup-id xset b off
 exec --no-startup-id setxkbmap -option caps:escape
 exec --no-startup-id nightshift -l 39.0315533:-94.4954291 -d
-exec --no-startup-id setxkbmap -model apple_laptop -layout us -variant dvp
+# exec --no-startup-id setxkbmap -model apple_laptop -layout us -variant dvp
 
 font pango:FiraCode, FontAwesome 12
 
@@ -52,8 +52,8 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 #change screen layout
-bindsym $mod+Shift+m exec --no-startup-id /home/joshfabean/.screenlayout/work-2-monitors.sh
-bindsym $mod+Shift+n exec --no-startup-id /home/joshfabean/.screenlayout/just-lappy.sh
+bindsym $mod+Shift+m exec --no-startup-id /home/joshfabean/.screenlayout/desktop-computer-dual.sh
+bindsym $mod+Shift+n exec --no-startup-id /home/joshfabean/.screenlayout/desktop-computer-single.sh
 
 # move focused window
 bindsym $mod+Shift+j move left
