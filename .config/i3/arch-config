@@ -132,14 +132,12 @@ bindsym $mod+Shift+0 move container to workspace number 10: 
 
 bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10% #-steps 1
 bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10% #-steps 1
-bindsym $mod+w exec --no-startup-id google-chrome-beta
 bindsym $mod+f exec --no-startup-id termite -e ranger
-bindsym Print exec scrot -s -e 'mv $f ~/Downloads'
 bindsym $mod+m move scratchpad
 bindsym $mod+n scratchpad show
 
 #Make sure these windows behave as they should
-for_window [class="Android SDK Manager" instance="Android SDK Manager"] floating enable
+for_window [class="^.*"] border pixel 2
 
 for_window [class="Cb-exit" instance="cb-exit"] floating enable
 for_window [class="Cb-exit" instance="cb-exit"] border none
@@ -165,7 +163,6 @@ for_window [title="^Steam Keyboard$"] floating enable
 assign [class="Slack"] $workSpace3
 assign [class="Plexamp"] $workSpace3
 
-new_window 1pixel
 #Hide border if 1 window
 hide_edge_borders both
 # reload the configuration file
@@ -233,10 +230,55 @@ bindsym $mod+Control+Left resize shrink width 5 px or 5 ppt
 #}
 
 # class                 border  backgr. text    indicator
-client.focused #586e75 #586e75 #fdf6e3 #268bd2
-client.focused_inactive #073642 #073642 #93a1a1 #002b36
-client.unfocused #002b36 #002b36 #586e75 #002b36
-client.urgent #dc322f #dc322f #fdf6e3 #dc322f
+client.focused          #FFFFFF #BF360C #fdf6e3 #FF0000
+client.focused_inactive #073642 #FF9800 #93a1a1 #002b36
+client.unfocused        #002b36 #311B92 #586e75 #002b36
+client.urgent           #dc322f #b71c1c #fdf6e3 #dc322f
+
+# gaps
+gaps inner 15
+smart_gaps on
+
+set $mode_gaps Gaps: (o) outer, (i) inner
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+bindsym $mod+Shift+g mode "$mode_gaps"
+bindsym $mod+g mode gaps inner 0 
+
+mode "$mode_gaps" {
+        bindsym o      mode "$mode_gaps_outer"
+        bindsym i      mode "$mode_gaps_inner"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_inner" {
+        bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0     gaps inner current set 0
+
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_outer" {
+        bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
+        bindsym 0     gaps outer current set 0
+
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+
+
 
 
 bindsym Control+k exec --no-startup-id echo "core.weechat */buffer_dmenu" >> $(find ~/.weechat -type p)
