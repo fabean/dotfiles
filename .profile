@@ -32,6 +32,8 @@ alias sourceme='source ~/.profile'
 
 # I keep typing the R so why not
 alias docker-composer='docker-compose'
+alias docker-start='systemctl start docker'
+alias docker-stop='systemctl stop docker'
 
 # show my calendar
 alias mycal='gcalcli agenda --calendar josh@codekoalas.com --calendar joshfabean@gmail.com'
@@ -58,6 +60,8 @@ alias t='todo.sh'
 # launch PICO-8 with logs
 alias pico8='/Applications/PICO-8.app/Contents/MacOS/pico8'
 
+alias dmenu="dmenu -b -fn '-*-helvetica-medium-r-normal-*-17-*-*-*-*-*-*-*' -nf '#e04613' -nb '#3b3b3b' -sf '#e04613' -sb '#000000'"
+
 # my path
 export PATH="/usr/local/bin/php:/usr/local/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin:/Users/joshfabean/Development/android/sdk/tools:/Users/joshfabean/Development/android/sdk/platform-tools:/Users/joshfabean/.composer/vendor/bin:$PATH"
 
@@ -70,3 +74,5 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$HOME/Code/pantheon-tools
 export PATH=$PATH:$HOME/Code/vendor/bin
 export PATH=$PATH:$HOME/.config/composer/vendor/bin
+
+export LIBVA_DRIVER_NAME=vdpau

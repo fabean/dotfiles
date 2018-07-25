@@ -3,9 +3,8 @@
 set $mod Mod4
 set $alt Mod1
 
-exec --no-startup-id nitrogen --restore ~/Wallpapers
 # exec --no-startup-id compton -b
-# exec --no-startup-id nm-applet
+exec --no-startup-id nm-applet
 exec --no-startup-id xss-lock -- i3lock-fancy
 exec --no-startup-id xset r rate 250 25
 exec --no-startup-id xset b off
@@ -131,6 +130,9 @@ bindsym $mod+Shift+0 move container to workspace number 10: 
 
 #Custom Keybindings
 
+bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10% #-steps 1
+bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10% #-steps 1
+bindsym $mod+w exec --no-startup-id google-chrome-beta
 bindsym $mod+f exec --no-startup-id termite -e ranger
 bindsym Print exec scrot -s -e 'mv $f ~/Downloads'
 bindsym $mod+m move scratchpad
@@ -244,7 +246,7 @@ bindsym Control+k exec --no-startup-id echo "core.weechat */buffer_dmenu" >> $(f
 # exec --no-startup-id pasystray
 exec --no-startup-id pcmanfm -d
 # exec --no-startup-id rescuetime
-# exec --no-startup-id blueman-applet
+exec --no-startup-id blueman-applet
 exec --no-startup-id dunst
 
 bindsym XF86AudioLowerVolume exec --no-startup-id "pulseaudio-ctl down ; pkill -RTMIN+1 i3blocks"
@@ -254,8 +256,6 @@ bindsym XF86AudioMute exec --no-startup-id "pulseaudio-ctl mute ; pkill -RTMIN+1
 # bindsym XF86AudioPause exec --no-startup-id playerctl play-pause
 # bindsym XF86AudioPlayPause exec --no-startup-id playerctl play-pause
 bindsym $mod1+Shift+p exec --no-startup-id echo "cycle pause" > ~/.config/mpv/control
-bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl s +10%
-bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl s 10%-
 
 # Chrome special flags and others set in /etc/profiles.d/variables.sh like the following: --touch-devices=2 --force-device-scale-factor=2
 #
