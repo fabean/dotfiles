@@ -13,6 +13,7 @@ alias mv='mv -iv' # prompt when overwriting and verbose
 alias ll='ls -FGlAhp'
 alias du1='du -h -d 1'
 alias loopbackftw='sudo ip addr add 192.168.237.237/24 brd + dev wlp4s0 label wlp4s0:1'
+alias loopbackftwethernet='sudo ip addr add 192.168.237.237/24 brd + dev enp0s31f6 label enp0s31f6:1'
 # channeling Justin & alisiasing my git
 alias gs='g status'
 alias ga='g add'
