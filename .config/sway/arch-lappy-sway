@@ -1,0 +1,283 @@
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+
+set $mod Mod4
+set $alt Mod1
+
+# exec --no-startup-id compton -b
+# exec --no-startup-id nm-applet
+# exec --no-startup-id xss-lock -- i3lock-fancy
+exec --no-startup-id xset r rate 250 25
+exec --no-startup-id xset b off
+exec --no-startup-id setxkbmap -option caps:escape
+exec --no-startup-id nightshift -l 39.0315533:-94.4954291 -d
+#exec --no-startup-id setxkbmap -model apple_laptop -layout us -variant dvp
+
+#background colors
+# output eDP-1 background #388E3C solid_color
+output eDP-1 pos 0 0 res 2880x1800
+output DP-1 pos 2880 0 res 1920x1200
+output DP-2 pos 4800 0 res 1920x1200
+
+output eDP-1 bg ~/Wallpapers/stars.jpg stretch
+output DP-1 bg ~/Wallpapers/stars.jpg stretch
+output DP-2 bg ~/Wallpapers/stars.jpg stretch
+
+
+font pango:FiraCode, FontAwesome 12
+
+bindsym $mod+F7 exec --no-startup-id xset r rate 250 25 && xset b off && setxkbmap -option caps:escape
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal
+bindsym $mod+Return exec --no-startup-id termite
+
+# kill focused window
+bindsym $mod+q kill
+
+# lock screen
+bindsym $mod+$alt+s exec swaylock
+
+# start dmenu (a program launcher)
+bindsym XF86LaunchA exec --no-startup-id rofi -show run
+bindcode 225 exec --no-startup-id rofi -show run
+bindsym $mod+F9 exec --no-startup-id rofi -show run
+#bindsym $mod+space exec --no-startup-id rofi -fullscreen -show run
+#bindsym $mod+space exec --no-startup-id rofi -show run
+bindsym $mod+space exec --no-startup-id rofi -show run
+
+# screenshot
+bindsym $mod+Shift+Control+4 exec --no-startup-id deepin-screenshot
+
+# change focus
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+semicolon focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+#change screen layout
+#bindsym $mod+Shift+m exec --no-startup-id /home/joshfabean/.screenlayout/work-2-monitors.sh
+#bindsym $mod+Shift+n exec --no-startup-id /home/joshfabean/.screenlayout/just-lappy.sh
+
+# move focused window
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+d fullscreen
+bindsym $mod+$alt+f fullscreen
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+t layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+$alt+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+p focus parent
+
+# focus the child container
+bindsym $mod+c focus child
+
+set $workSpace1 "1"
+set $workSpace2 "2"
+set $workSpace3 "3"
+set $workSpace4 "4"
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+bindsym Mod1+Control+Right workspace next
+bindsym Mod1+Control+Left workspace prev
+workspace_auto_back_and_forth yes
+bindsym $mod+z workspace back_and_forth
+bindsym $mod+Shift+z move container to workspace back_and_forth
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+#Custom Keybindings
+bindsym $mod+f exec --no-startup-id termite -e ranger
+bindsym Print exec scrot -s -e 'mv $f ~/Downloads'
+bindsym $mod+m move scratchpad
+bindsym $mod+n scratchpad show
+
+#Make sure these windows behave as they should
+for_window [class="Android SDK Manager" instance="Android SDK Manager"] floating enable
+
+for_window [class="Cb-exit" instance="cb-exit"] floating enable
+for_window [class="Cb-exit" instance="cb-exit"] border none
+for_window [class="^Pavucontrol$"] floating enable
+for_window [instance="crx_gaedmjdfmmahhbjefcbgaolhhanlaolb"] floating enable
+for_window [class="Google-chrome" instance="crx_nckgahadagoaajjgafhacjanaoiihapd"] floating enable
+for_window [class="chrome_app_list"] floating enable
+for_window [class="Plexamp"] floating enable
+
+# https://github.com/ValveSoftware/steam-for-linux/issues/1040
+for_window [class="^Steam$" title="^Friends$"] floating enable
+for_window [class="^Steam$" title="Steam - News"] floating enable
+for_window [class="^Steam$" title=".* - Chat"] floating enable
+for_window [class="^Steam$" title="^Settings$"] floating enable
+for_window [class="^Steam$" title=".* - event started"] floating enable
+for_window [class="^Steam$" title=".* CD key"] floating enable
+for_window [class="^Steam$" title="^Steam - Self Updater$"] floating enable
+for_window [class="^Steam$" title="^Screenshot Uploader$"] floating enable
+for_window [class="^Steam$" title="^Steam Guard - Computer Authorization Required$"] floating enable
+for_window [title="^Steam Keyboard$"] floating enable
+
+
+assign [class="Slack"] 3
+assign [class="Plexamp"] $workSpace3
+
+# new_window 1pixel
+default_border pixel 2
+#Hide border if 1 window
+hide_edge_borders both
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym semicolon resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+
+bindsym $mod+r mode "resize"
+
+# Resize Containers, Vim-style                            ($mod+Control+[hjkl])
+bindsym $mod+Control+j resize grow height 5 px or 5 ppt
+bindsym $mod+Control+k resize shrink height 5 px or 5 ppt
+bindsym $mod+Control+l resize grow width 5 px or 5 ppt
+bindsym $mod+Control+h resize shrink width 5 px or 5 ppt
+
+bindsym $mod+Control+Up resize grow height 5 px or 5 ppt
+bindsym $mod+Control+Down resize shrink height 5 px or 5 ppt
+bindsym $mod+Control+Right resize grow width 5 px or 5 ppt
+bindsym $mod+Control+Left resize shrink width 5 px or 5 ppt
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+bar {
+  position top
+  status_command i3blocks
+  font pango:Liberation 10, FontAwesome 12
+  strip_workspace_numbers yes
+
+  colors {
+    separator #586e75
+    background #0c1014
+    statusline #aea79f
+    focused_workspace #091f2e #091f2e #ffffff
+    active_workspace #073642 #073642 #ffffff
+    inactive_workspace #0c1014 #0c1014 #aea79f
+    urgent_workspace #77216f #77216f #ffffff
+  }
+}
+
+# class                 border  backgr. text    indicator child_border
+client.focused          #FFFFFF #BF360C #fdf6e3 #FF0000 #FFFFFF
+client.focused_inactive #073642 #FF9800 #93a1a1 #002b36 #073642
+client.unfocused        #002b36 #311B92 #586e75 #002b36 #002b36
+client.urgent           #dc322f #b71c1c #fdf6e3 #dc322f #dc322f
+
+#bindsym Control+k exec --no-startup-id echo "core.weechat */buffer_dmenu" >> $(find ~/.weechat -type p)
+
+
+# exec --no-startup-id xfce4-volumed-pulse
+# exec --no-startup-id pasystray
+exec --no-startup-id pcmanfm -d
+# exec --no-startup-id rescuetime
+# exec --no-startup-id blueman-applet
+
+# Notifications
+exec --no-startup-id mako
+bindsym $mod+Control+Shift+space exec --no-startup-id makoctl dismiss -a
+bindsym $mod+Control+space exec --no-startup-id makoctl dismiss
+
+
+bindsym XF86AudioLowerVolume exec --no-startup-id "pulseaudio-ctl down ; pkill -RTMIN+1 i3blocks"
+bindsym XF86AudioRaiseVolume exec --no-startup-id "pulseaudio-ctl up ; pkill -RTMIN+1 i3blocks"
+bindsym XF86AudioMute exec --no-startup-id "pulseaudio-ctl mute ; pkill -RTMIN+1 i3blocks"
+# bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+# bindsym XF86AudioPause exec --no-startup-id playerctl play-pause
+# bindsym XF86AudioPlayPause exec --no-startup-id playerctl play-pause
+#bindsym $mod1+Shift+p exec --no-startup-id echo "cycle pause" > ~/.config/mpv/control
+bindsym XF86MonBrightnessUp exec --no-startup-id "brightnessctl s +10%; brightnessctl -d gmux_backlight s +10%"
+bindsym XF86MonBrightnessDown exec --no-startup-id "brightnessctl s 10%-; brightnessctl -d gmux_backlight s 10%-"
+# Chrome special flags and others set in /etc/profiles.d/variables.sh like the following: --touch-devices=2 --force-device-scale-factor=2
+#
+#
+set $default_gaps_inner 10
+set $default_gaps_outer 0
+gaps inner $default_gaps_inner
+gaps outer $default_gaps_outer
+smart_gaps on
+
+bindsym $mod+Shift+s sticky toggle
+
