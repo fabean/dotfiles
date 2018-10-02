@@ -3,26 +3,6 @@
 set $mod Mod4
 set $alt Mod1
 
-# exec --no-startup-id compton -b
-# exec --no-startup-id nm-applet
-# exec --no-startup-id xss-lock -- i3lock-fancy
-exec --no-startup-id xset r rate 250 25
-exec --no-startup-id xset b off
-exec --no-startup-id setxkbmap -option caps:escape
-exec --no-startup-id nightshift -l 39.0315533:-94.4954291 -d
-#exec --no-startup-id setxkbmap -model apple_laptop -layout us -variant dvp
-
-#background colors
-# output eDP-1 background #388E3C solid_color
-output eDP-1 pos 0 0 res 2880x1800
-output DP-1 pos 2880 0 res 1920x1200
-output DP-2 pos 4800 0 res 1920x1200
-
-output eDP-1 bg ~/Wallpapers/stars.jpg stretch
-output DP-1 bg ~/Wallpapers/stars.jpg stretch
-output DP-2 bg ~/Wallpapers/stars.jpg stretch
-
-
 font pango:FiraCode, FontAwesome 12
 
 bindsym $mod+F7 exec --no-startup-id xset r rate 250 25 && xset b off && setxkbmap -option caps:escape
@@ -39,16 +19,10 @@ bindsym $mod+q kill
 # lock screen
 bindsym $mod+$alt+s exec swaylock
 
-# start dmenu (a program launcher)
+# start rofi (a program launcher)
 bindsym XF86LaunchA exec --no-startup-id rofi -show run
 bindcode 225 exec --no-startup-id rofi -show run
-bindsym $mod+F9 exec --no-startup-id rofi -show run
-#bindsym $mod+space exec --no-startup-id rofi -fullscreen -show run
-#bindsym $mod+space exec --no-startup-id rofi -show run
 bindsym $mod+space exec --no-startup-id rofi -show run
-
-# screenshot
-bindsym $mod+Shift+Control+4 exec --no-startup-id deepin-screenshot
 
 # change focus
 bindsym $mod+j focus left
@@ -61,10 +35,6 @@ bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
-
-#change screen layout
-#bindsym $mod+Shift+m exec --no-startup-id /home/joshfabean/.screenlayout/work-2-monitors.sh
-#bindsym $mod+Shift+n exec --no-startup-id /home/joshfabean/.screenlayout/just-lappy.sh
 
 # move focused window
 bindsym $mod+Shift+j move left
@@ -105,10 +75,14 @@ bindsym $mod+p focus parent
 # focus the child container
 bindsym $mod+c focus child
 
-set $workSpace1 "1"
-set $workSpace2 "2"
-set $workSpace3 "3"
-set $workSpace4 "4"
+# reload the configuration file
+bindsym $mod+Shift+c reload
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -139,15 +113,23 @@ bindsym $mod+Shift+8 move container to workspace number 8
 bindsym $mod+Shift+9 move container to workspace number 9
 bindsym $mod+Shift+0 move container to workspace number 10
 
-#Custom Keybindings
+########################
+## Custom Keybindings
+########################
 bindsym $mod+f exec --no-startup-id termite -e ranger
 bindsym Print exec scrot -s -e 'mv $f ~/Downloads'
 bindsym $mod+m move scratchpad
 bindsym $mod+n scratchpad show
+bindsym $mod+Shift+s sticky toggle
+#bindsym Control+k exec --no-startup-id echo "core.weechat */buffer_dmenu" >> $(find ~/.weechat -type p)
+# Notifications
+bindsym $mod+Control+Shift+space exec --no-startup-id makoctl dismiss -a
+bindsym $mod+Control+space exec --no-startup-id makoctl dismiss
 
-#Make sure these windows behave as they should
+#########################
+## Floating Windows
+#########################
 for_window [class="Android SDK Manager" instance="Android SDK Manager"] floating enable
-
 for_window [class="Cb-exit" instance="cb-exit"] floating enable
 for_window [class="Cb-exit" instance="cb-exit"] border none
 for_window [class="^Pavucontrol$"] floating enable
@@ -155,7 +137,6 @@ for_window [instance="crx_gaedmjdfmmahhbjefcbgaolhhanlaolb"] floating enable
 for_window [class="Google-chrome" instance="crx_nckgahadagoaajjgafhacjanaoiihapd"] floating enable
 for_window [class="chrome_app_list"] floating enable
 for_window [class="Plexamp"] floating enable
-
 # https://github.com/ValveSoftware/steam-for-linux/issues/1040
 for_window [class="^Steam$" title="^Friends$"] floating enable
 for_window [class="^Steam$" title="Steam - News"] floating enable
@@ -168,20 +149,25 @@ for_window [class="^Steam$" title="^Screenshot Uploader$"] floating enable
 for_window [class="^Steam$" title="^Steam Guard - Computer Authorization Required$"] floating enable
 for_window [title="^Steam Keyboard$"] floating enable
 
-
+###########################
+## Assign Workspaces
+##########################
 assign [class="Slack"] 3
-assign [class="Plexamp"] $workSpace3
+assign [class="Plexamp"] 3
 
+##########################
+## Gaps
+##########################
 # new_window 1pixel
 default_border pixel 2
 #Hide border if 1 window
 hide_edge_borders both
-# reload the configuration file
-bindsym $mod+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+set $default_gaps_inner 10
+set $default_gaps_outer 0
+gaps inner $default_gaps_inner
+gaps outer $default_gaps_outer
+smart_gaps on
+
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -246,21 +232,35 @@ client.focused_inactive #073642 #FF9800 #93a1a1 #002b36 #073642
 client.unfocused        #002b36 #311B92 #586e75 #002b36 #002b36
 client.urgent           #dc322f #b71c1c #fdf6e3 #dc322f #dc322f
 
-#bindsym Control+k exec --no-startup-id echo "core.weechat */buffer_dmenu" >> $(find ~/.weechat -type p)
+############################
+## Displays
+############################
+output eDP-1 pos 0 0 res 2880x1800
+output DP-1 pos 2880 0 res 1920x1200
+output DP-2 pos 4800 0 res 1920x1200
+# background images
+output eDP-1 bg ~/Wallpapers/stars.jpg stretch
+output DP-1 bg ~/Wallpapers/stars.jpg stretch
+output DP-2 bg ~/Wallpapers/stars.jpg stretch
 
 
-# exec --no-startup-id xfce4-volumed-pulse
-# exec --no-startup-id pasystray
+##############################
+## Startup Things
+##############################
 exec --no-startup-id pcmanfm -d
-# exec --no-startup-id rescuetime
-# exec --no-startup-id blueman-applet
-
-# Notifications
+# exec --no-startup-id nm-applet
+# exec --no-startup-id xss-lock -- i3lock-fancy
+#exec --no-startup-id xset r rate 250 25
+#exec --no-startup-id xset b off
+#exec --no-startup-id setxkbmap -option caps:escape
+exec --no-startup-id nightshift -l 39.0315533:-94.4954291 -d
+#exec --no-startup-id setxkbmap -model apple_laptop -layout us -variant dvp
 exec --no-startup-id mako
-bindsym $mod+Control+Shift+space exec --no-startup-id makoctl dismiss -a
-bindsym $mod+Control+space exec --no-startup-id makoctl dismiss
 
 
+#############################
+## Media Keys
+#############################
 bindsym XF86AudioLowerVolume exec --no-startup-id "pulseaudio-ctl down ; pkill -RTMIN+1 i3blocks"
 bindsym XF86AudioRaiseVolume exec --no-startup-id "pulseaudio-ctl up ; pkill -RTMIN+1 i3blocks"
 bindsym XF86AudioMute exec --no-startup-id "pulseaudio-ctl mute ; pkill -RTMIN+1 i3blocks"
@@ -270,14 +270,5 @@ bindsym XF86AudioMute exec --no-startup-id "pulseaudio-ctl mute ; pkill -RTMIN+1
 #bindsym $mod1+Shift+p exec --no-startup-id echo "cycle pause" > ~/.config/mpv/control
 bindsym XF86MonBrightnessUp exec --no-startup-id "brightnessctl s +10%; brightnessctl -d gmux_backlight s +10%"
 bindsym XF86MonBrightnessDown exec --no-startup-id "brightnessctl s 10%-; brightnessctl -d gmux_backlight s 10%-"
-# Chrome special flags and others set in /etc/profiles.d/variables.sh like the following: --touch-devices=2 --force-device-scale-factor=2
-#
-#
-set $default_gaps_inner 10
-set $default_gaps_outer 0
-gaps inner $default_gaps_inner
-gaps outer $default_gaps_outer
-smart_gaps on
 
-bindsym $mod+Shift+s sticky toggle
 
