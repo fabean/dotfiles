@@ -12,6 +12,7 @@ exec --no-startup-id xset b off
 exec --no-startup-id setxkbmap -option caps:escape
 exec --no-startup-id nightshift -l 39.0315533:-94.4954291 -d
 # exec --no-startup-id setxkbmap -model apple_laptop -layout us -variant dvp
+exec --no-startup-id /home/joshfabean/.screenlayout/desktop-computer-dual.sh
 
 font pango:FiraCode, FontAwesome 12
 
@@ -243,7 +244,7 @@ set $mode_gaps Gaps: (o) outer, (i) inner
 set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
 set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
 bindsym $mod+Shift+g mode "$mode_gaps"
-bindsym $mod+g mode gaps inner 0 
+bindsym $mod+g mode gaps inner 0
 
 mode "$mode_gaps" {
         bindsym o      mode "$mode_gaps_outer"
