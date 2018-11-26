@@ -35,6 +35,9 @@ alias docker-composer='docker-compose'
 alias docker-start='systemctl start docker'
 alias docker-stop='systemctl stop docker'
 
+alias dcu='docker-compose up -d'
+alias dcd='docker-compose down'
+
 # show my calendar
 alias mycal='gcalcli agenda --calendar josh@codekoalas.com --calendar joshfabean@gmail.com'
 
