@@ -121,7 +121,7 @@ bindsym Print exec scrot -s -e 'mv $f ~/Downloads'
 bindsym $mod+m move scratchpad
 bindsym $mod+n scratchpad show
 bindsym $mod+Shift+s sticky toggle
-#bindsym Control+k exec --no-startup-id echo "core.weechat */buffer_dmenu" >> $(find ~/.weechat -type p)
+bindsym Control+k exec --no-startup-id echo "core.weechat */buffer_dmenu" >> $(find ~/.weechat -type p)
 # Notifications
 bindsym $mod+Control+Shift+space exec --no-startup-id makoctl dismiss -a
 bindsym $mod+Control+space exec --no-startup-id makoctl dismiss
@@ -137,6 +137,8 @@ for_window [instance="crx_gaedmjdfmmahhbjefcbgaolhhanlaolb"] floating enable
 for_window [class="Google-chrome" instance="crx_nckgahadagoaajjgafhacjanaoiihapd"] floating enable
 for_window [class="chrome_app_list"] floating enable
 for_window [class="Plexamp"] floating enable
+for_window [class="blueman-manager"] floating enable
+for_window [class="^Bluetooth Devices"] floating enable
 # https://github.com/ValveSoftware/steam-for-linux/issues/1040
 for_window [class="^Steam$" title="^Friends$"] floating enable
 for_window [class="^Steam$" title="Steam - News"] floating enable
@@ -271,4 +273,11 @@ bindsym XF86AudioMute exec --no-startup-id "pulseaudio-ctl mute ; pkill -RTMIN+1
 bindsym XF86MonBrightnessUp exec --no-startup-id "brightnessctl s +10%; brightnessctl -d gmux_backlight s +10%"
 bindsym XF86MonBrightnessDown exec --no-startup-id "brightnessctl s 10%-; brightnessctl -d gmux_backlight s 10%-"
 
+#set $gnome-schema org.gnome.desktop.interface
+#
+#exec_always {
+#    gsettings set $gnome-schema gtk-theme 'Arc Dark'
+#    gsettings set $gnome-schema icon-theme 'Arc Dark'
+#    gsettings set $gnome-schema cursor-theme 'Arc Dark'
+#}
 
