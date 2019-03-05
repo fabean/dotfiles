@@ -35,6 +35,18 @@ alias docker-composer='docker-compose'
 alias docker-start='systemctl start docker'
 alias docker-stop='systemctl stop docker'
 
+vpn-start() {
+  sudo systemctl start openvpn-client@$1
+}
+
+vpn-stop() {
+  sudo systemctl stop openvpn-client@$1
+}
+
+vpn-status() {
+  sudo systemctl status openvpn-client@$1
+}
+
 alias dcu='docker-compose up -d'
 alias dcd='docker-compose down'
 
@@ -54,6 +66,14 @@ ddrush() {
 
 dlogin() {
   docker exec -ti $1 /bin/bash
+}
+
+pass() {
+  lpass show -c --password $(lpass ls  | fzf | awk '{print $(NF)}' | sed 's/\]//g')
+}
+
+cheat() {
+  curl cht.sh/$1
 }
 
 #todo.sh
