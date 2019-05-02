@@ -97,5 +97,6 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$HOME/Code/pantheon-tools
 export PATH=$PATH:$HOME/Code/vendor/bin
 export PATH=$PATH:$HOME/.config/composer/vendor/bin
+export PATH=$PATH:$HOME/.nvm/versions/node/v8.4.0/bin
 
 export LIBVA_DRIVER_NAME=vdpau

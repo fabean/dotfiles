@@ -17,7 +17,13 @@ bindsym $mod+Return exec --no-startup-id termite
 bindsym $mod+q kill
 
 # lock screen
-bindsym $mod+$alt+s exec swaylock
+bindsym $mod+$alt+s exec swaylock -c d4191999
+
+#exec swayidle \
+#  timeout 300 'swaylock -c 00005599' \
+#  timeout 600 'swaymsg "output * dpms off"' \
+#    resume 'swaymsg "output * dpms on"' \
+#  before-sleep 'swaylock -c 00005599'
 
 # start rofi (a program launcher)
 bindsym XF86LaunchA exec --no-startup-id rofi -show run
@@ -244,7 +250,7 @@ output DP-2 pos 4800 0 res 1920x1200
 output eDP-1 bg ~/Wallpapers/stars.jpg stretch
 output DP-1 bg ~/Wallpapers/stars.jpg stretch
 output DP-2 bg ~/Wallpapers/stars.jpg stretch
-
+bindsym $mod+Shift+m exec --no-startup-id "sway output output DP-1 pos 2880 0 res 1920x1080 && sway ouput DP-2 res 1920x1080"
 
 ##############################
 ## Startup Things
@@ -273,11 +279,10 @@ bindsym XF86AudioMute exec --no-startup-id "pulseaudio-ctl mute ; pkill -RTMIN+1
 bindsym XF86MonBrightnessUp exec --no-startup-id "brightnessctl s +10%; brightnessctl -d gmux_backlight s +10%"
 bindsym XF86MonBrightnessDown exec --no-startup-id "brightnessctl s 10%-; brightnessctl -d gmux_backlight s 10%-"
 
-#set $gnome-schema org.gnome.desktop.interface
-#
-#exec_always {
-#    gsettings set $gnome-schema gtk-theme 'Arc Dark'
-#    gsettings set $gnome-schema icon-theme 'Arc Dark'
-#    gsettings set $gnome-schema cursor-theme 'Arc Dark'
-#}
+set $gnome-schema org.gnome.desktop.interface
+
+exec_always {
+    gsettings set $gnome-schema gtk-theme 'Flat-Remix-GTK-Red-Darkest'
+    gsettings set $gnome-schema icon-theme 'Flat-Remix-Red-Dark'
+}
 
