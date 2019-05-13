@@ -17,7 +17,7 @@ bindsym $mod+Return exec --no-startup-id termite
 bindsym $mod+q kill
 
 # lock screen
-bindsym $mod+$alt+s exec swaylock -c d4191999
+bindsym $mod+$alt+s exec swaylock
 
 #exec swayidle \
 #  timeout 300 'swaylock -c 00005599' \
