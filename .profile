@@ -86,17 +86,18 @@ alias pico8='/Applications/PICO-8.app/Contents/MacOS/pico8'
 alias dmenu="dmenu -b -fn '-*-helvetica-medium-r-normal-*-17-*-*-*-*-*-*-*' -nf '#e04613' -nb '#3b3b3b' -sf '#e04613' -sb '#000000'"
 
 # my path
-export PATH="/usr/local/bin/php:/usr/local/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin:/Users/joshfabean/Development/android/sdk/tools:/Users/joshfabean/Development/android/sdk/platform-tools:/Users/joshfabean/.composer/vendor/bin:$PATH"
+export PATH="/usr/local/bin/php:/usr/local/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin:$PATH"
 
-export NVM_DIR="/Users/joshfabean/.nvm"
+export NVM_DIR="/home/joshfabean/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
-export ANDROID_HOME="/usr/local/opt/android-sdk"
+#export ANDROID_HOME="/usr/local/opt/android-sdk"
+export ANDROID_HOME="/home/joshfabean/Android/Sdk"
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$HOME/Code/pantheon-tools
 export PATH=$PATH:$HOME/Code/vendor/bin
 export PATH=$PATH:$HOME/.config/composer/vendor/bin
-export PATH=$PATH:$HOME/.nvm/versions/node/v8.4.0/bin
+export PATH=$PATH:$HOME/.nvm
 
 export LIBVA_DRIVER_NAME=vdpau
