@@ -12,13 +12,12 @@ alias cp='cp -iv' # prompt when overwriting and verbose
 alias mv='mv -iv' # prompt when overwriting and verbose
 alias ll='ls -FGlAhp'
 alias du1='du -h -d 1'
-alias loopbackftw='sudo ip addr add 192.168.237.237/24 brd + dev wlp4s0 label wlp4s0:1'
-alias loopbackftwethernet='sudo ip addr add 192.168.237.237/24 brd + dev enp0s31f6 label enp0s31f6:1'
+alias ls='exa'
 # channeling Justin & alisiasing my git
-alias gs='g status'
-alias ga='g add'
-alias gc='g commit'
-alias gcm='g commit -m'
+alias gs='git status'
+alias gap='git add -p'
+#alias gc='g commit'
+#alias gcm='g commit -m'
 alias please='sudo !!'
 
 # networking
@@ -87,9 +86,11 @@ alias dmenu="dmenu -b -fn '-*-helvetica-medium-r-normal-*-17-*-*-*-*-*-*-*' -nf 
 
 # my path
 export PATH="/usr/local/bin/php:/usr/local/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin:$PATH"
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-export NVM_DIR="/home/joshfabean/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+npm set prfix ~/.npm
+PATH="$HOME/.npm/bin:$PATH"
+PATH="./node_modules/.bin:$PATH"
 
 #export ANDROID_HOME="/usr/local/opt/android-sdk"
 export ANDROID_HOME="/home/joshfabean/Android/Sdk"
@@ -98,6 +99,8 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$HOME/Code/pantheon-tools
 export PATH=$PATH:$HOME/Code/vendor/bin
 export PATH=$PATH:$HOME/.config/composer/vendor/bin
-export PATH=$PATH:$HOME/.nvm
-
 export LIBVA_DRIVER_NAME=vdpau
+export EDITOR=nvim
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
+export LC_ALL="en_US.UTF-8"
+
