@@ -247,9 +247,9 @@ output eDP-1 pos 0 0 res 2880x1800
 output DP-1 pos 2880 0 res 1920x1200
 output DP-2 pos 4800 0 res 1920x1200
 # background images
-output eDP-1 bg ~/Wallpapers/stars.jpg stretch
-output DP-1 bg ~/Wallpapers/stars.jpg stretch
-output DP-2 bg ~/Wallpapers/stars.jpg stretch
+output eDP-1 bg ~/Wallpapers/xp-sunrise.png stretch
+output DP-1 bg ~/Wallpapers/xp-sunrise.png stretch
+output DP-2 bg ~/Wallpapers/xp-sunrise.png stretch
 bindsym $mod+Shift+m exec --no-startup-id "sway output output DP-1 pos 2880 0 res 1920x1080 && sway ouput DP-2 res 1920x1080"
 
 ##############################

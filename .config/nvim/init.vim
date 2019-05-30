@@ -6,6 +6,7 @@ endif
 
 call plug#begin()
 " Plugins
+Plug 'miyakogi/seiya.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'jeetsukumaran/vim-filebeagle'
@@ -116,17 +117,17 @@ let g:deoplete#omni#input_patterns.java = [
     \'[^. \t0-9]\::\w*',
     \]
 
-call deoplete#custom#set('buffer', 'mark', 'ℬ')
-call deoplete#custom#set('ternjs', 'mark', '')
-call deoplete#custom#set('omni', 'mark', '⌾')
-call deoplete#custom#set('file', 'mark', 'file')
-call deoplete#custom#set('jedi', 'mark', '')
-call deoplete#custom#set('typescript', 'mark', '')
-call deoplete#custom#set('neosnippet', 'mark', '')
-call deoplete#custom#set('java', 'mark', '')
-call deoplete#custom#set('javacomplete2', 'mark', '')
+call deoplete#custom#source('buffer', 'mark', 'ℬ')
+call deoplete#custom#source('ternjs', 'mark', '')
+call deoplete#custom#source('omni', 'mark', '⌾')
+call deoplete#custom#source('file', 'mark', 'file')
+call deoplete#custom#source('jedi', 'mark', '')
+call deoplete#custom#source('typescript', 'mark', '')
+call deoplete#custom#source('neosnippet', 'mark', '')
+call deoplete#custom#source('java', 'mark', '')
+call deoplete#custom#source('javacomplete2', 'mark', '')
 
-call deoplete#custom#set('typescript',  'rank', 630)
+call deoplete#custom#source('typescript',  'rank', 630)
 
 set completefunc=autoprogramming#complete
 let g:deoplete#auto_complete_delay = 50
@@ -134,7 +135,7 @@ let g:deoplete#ignore_sources = get(g:,'deoplete#ignore_sources',{})
 let g:deoplete#ignore_sources.java = ['omni']
 let g:deoplete#ignore_sources.php = ['omni']
 let g:deoplete#omni#functions = get(g:,'deoplete#omni#functions',{})
-call deoplete#custom#set('_', 'matchers', ['matcher_full_fuzzy'])
+call deoplete#custom#source('_', 'matchers', ['matcher_full_fuzzy'])
 inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
 inoremap <expr><C-x><C-o> deoplete#mappings#manual_complete()
@@ -190,3 +191,6 @@ let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 " PHP7
 let g:ultisnips_php_scalar_types = 1
 
+let g:seiya_auto_enable=1
+
+let g:seiya_target_groups = has('nvim') ? ['guibg'] : ['ctermbg']
