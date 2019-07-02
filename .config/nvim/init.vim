@@ -47,9 +47,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-lua-ftplugin'
 
-"Markdown
-Plug 'suan/vim-instant-markdown'
-
 "Vue
 Plug 'posva/vim-vue'
 
