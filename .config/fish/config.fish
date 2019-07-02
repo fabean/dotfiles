@@ -8,6 +8,9 @@ alias du1='du -h -d 1'
 alias ls='exa'
 alias gs='git status'
 alias gap='git add -p'
+alias git_current_branch="git branch | grep \* | cut -d ' ' -f2"
+alias ggpull='git pull origin (git_current_branch)'
+alias ggpush='git push origin (git_current_branch)'
 
 alias docker-composer='docker-compose'
 alias docker-start='systemctl start docker'
