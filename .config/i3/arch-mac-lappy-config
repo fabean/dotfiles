@@ -11,7 +11,7 @@ exec --no-startup-id xset r rate 250 25
 exec --no-startup-id xset b off
 exec --no-startup-id setxkbmap -option caps:escape
 exec --no-startup-id nightshift -l 39.0315533:-94.4954291 -d
-exec --no-startup-id setxkbmap -model apple_laptop -layout us -variant dvorak
+# exec --no-startup-id setxkbmap -model apple_laptop -layout us -variant dvorak
 
 font pango:FiraCode, FontAwesome 12
 
@@ -136,7 +136,7 @@ bindsym Print exec scrot -s -e 'mv $f ~/Downloads'
 bindsym $mod+m move scratchpad
 bindsym $mod+n scratchpad show
 
-for_window [class="^.*"] border pixel 0
+for_window [class="^.*"] border pixel 2
 #Make sure these windows behave as they should
 for_window [class="Android SDK Manager" instance="Android SDK Manager"] floating enable
 
@@ -265,31 +265,30 @@ bindsym $mod+Control+Left resize shrink width 5 px or 5 ppt
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-#bar {
-#        position top
-#        status_command i3blocks
-#        font pango:Liberation 10, FontAwesome 12
+bar {
+        position top
+        status_command i3blocks
+        font pango:Liberation 10, FontAwesome 12
         # strip_workspace_numbers yes
 
-#        colors {
-#          separator #586e75
-#          background #0c1014
-#          statusline #aea79f
-#          focused_workspace #091f2e #091f2e #ffffff
-#          active_workspace #073642 #073642 #ffffff
-#          inactive_workspace #0c1014 #0c1014 #aea79f
-#          urgent_workspace #77216f #77216f #ffffff
-#        }
-#}
+        colors {
+          separator #586e75
+          background #0c1014
+          statusline #aea79f
+          focused_workspace #091f2e #091f2e #ffffff
+          active_workspace #073642 #073642 #ffffff
+          inactive_workspace #0c1014 #0c1014 #aea79f
+          urgent_workspace #77216f #77216f #ffffff
+        }
+}
 
 # class                 border  backgr. text    indicator
-client.focused #586e75 #586e75 #fdf6e3 #268bd2
-client.focused_inactive #073642 #073642 #93a1a1 #002b36
-client.unfocused #002b36 #002b36 #586e75 #002b36
-client.urgent #dc322f #dc322f #fdf6e3 #dc322f
+client.focused          #FFFFFF #BF360C #fdf6e3 #FF0000
+client.focused_inactive #073642 #FF9800 #93a1a1 #002b36
+client.unfocused        #002b36 #311B92 #586e75 #002b36
+client.urgent           #dc322f #b71c1c #fdf6e3 #dc322f
 
-
-bindsym Control+k exec --no-startup-id echo "core.weechat */buffer_dmenu" >> $(find ~/.weechat -type p)
+bindsym Control+j exec --no-startup-id echo "core.weechat */buffer_dmenu" >> $(find ~/.weechat -type p)
 
 
 # exec --no-startup-id xfce4-volumed-pulse
