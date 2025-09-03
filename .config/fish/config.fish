@@ -2,6 +2,7 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
+set fish_greeting
 alias ggpull='git pull origin (git rev-parse --abbrev-ref HEAD)'
 alias ggpush='git push origin (git rev-parse --abbrev-ref HEAD)'
 alias gs='git status'
