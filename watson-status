@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Watson time tracking status script
+# Shows current project, tags, and elapsed time
+
+project="$(watson status -p)"
+this_time="$(watson status -e)"
+tag=$(watson status -t | tr -d '[]')
+
+if [ "$project" == "No project started." ]; then
+    echo ""
+else
+    echo "$project +$tag: $this_time"
+fi
+

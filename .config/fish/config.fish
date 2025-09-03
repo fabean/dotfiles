@@ -1,46 +1,14 @@
-alias vim='nvim'
-alias bim='nvim'
-alias ssh="ssh -A" # forward ssh keys to server
-alias cp='cp -iv' # prompt when overwriting and verbose
-alias mv='mv -iv' # prompt when overwriting and verbose
-alias ll='ls -FGlAhp'
-alias du1='du -h -d 1'
-alias ls='exa'
+if status is-interactive
+    # Commands to run in interactive sessions can go here
+end
+
+alias ggpull='git pull origin (git rev-parse --abbrev-ref HEAD)'
+alias ggpush='git push origin (git rev-parse --abbrev-ref HEAD)'
 alias gs='git status'
-alias gap='git add -p'
-alias git_current_branch="git branch | grep \* | cut -d ' ' -f2"
-alias ggpull='git pull origin (git_current_branch)'
-alias ggpush='git push origin (git_current_branch)'
+alias vim='nvim'
+alias ls='eza --icons'
+alias laptop-display-off="hyprctl keyword monitor 'eDP-1, disable'"
+alias laptop-display-on="hyprctl keyword monitor 'eDP-1, highres, 3441x1441,1'"
 
-alias docker-composer='docker-compose'
-alias docker-start='systemctl start docker'
-alias docker-stop='systemctl stop docker'
-
-function vpn-start
-  sudo systemctl start openvpn-client@$1
-end
-
-function vpn-stop
-  sudo systemctl stop openvpn-client@$1
-end
-
-function vpn-status
-  sudo systemctl status openvpn-client@$1
-end
-
-# my path
-export PATH="/usr/local/bin/php:/usr/local/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin:$PATH"
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-
-npm set prfix ~/.npm
-export PATH="$HOME/.npm/bin:$PATH"
-export PATH="./node_modules/.bin:$PATH"
-
-export LIBVA_DRIVER_NAME=vdpau
-export EDITOR=nvim
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
-export LC_ALL="en_US.UTF-8"
-
-function fish_prompt
-  powerline-rs --shell bare $status
-end
+starship init fish | source
+zoxide init --cmd cd fish | source
