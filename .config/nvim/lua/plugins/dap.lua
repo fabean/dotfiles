@@ -9,6 +9,10 @@ return {
       "nvim-neotest/nvim-nio",
     },
     config = function()
+      -- Set leader key early
+      vim.g.mapleader = " "
+      vim.g.maplocalleader = " "
+      
       local dap = require("dap")
 
       -- Load telescope DAP extension if available
@@ -17,47 +21,55 @@ return {
         pcall(require("telescope").load_extension, "dap")
       end
 
-      -- Enable DAP logging
-      -- dap.set_log_level('DEBUG')
-
-      -- Associate .theme files with PHP
-      vim.filetype.add({
-        extension = {
-          theme = "php",
-          install = "php",
-        },
-      })
-
-      -- PHP Xdebug configuration
+      -- Enhanced PHP Xdebug configuration
       dap.adapters.php = {
         type = "executable",
         command = "node",
         args = { os.getenv("HOME") .. "/Code/vscode-php-debug/out/phpDebug.js" },
+        -- Add connection timeout and retry settings
+        options = {
+          cwd = vim.fn.getcwd(),
+          env = {
+            NODE_ENV = "development"
+          }
+        }
       }
 
       dap.configurations.php = {
         {
           type = "php",
           request = "launch",
-          name = "Listen for XDebug (Docker)",
+          name = "Listen for Xdebug",
           port = 9003,
           pathMappings = {
-            -- Map container paths to local paths
-            -- Adjust these mappings based on your Docker setup
-            ["/var/www/html"] = vim.fn.getcwd(),
-            ["/app"] = vim.fn.getcwd(),
-            ["/var/www"] = vim.fn.getcwd(),
+            ["/var/www/html"] = vim.fn.getcwd()
           },
-          ignore = {
-            "**/vendor/**/*.php",
-            "**/node_modules/**/*.php",
-          },
+          -- Connection and evaluation settings
+          stopOnEntry = false,
+          serverReadyTimeout = 20000,
+          -- Enhanced scope and variable configuration
+          showAsyncStacks = true,
+          showGlobalVariables = true,
+          showLocalVariables = true,
+          showStaticVariables = true,
+          -- Force variable evaluation
+          evaluateExpressions = true,
+          -- Better error handling
+          ignore = {},
+          -- Additional Xdebug settings for better variable inspection
           xdebugSettings = {
             max_children = 128,
-            max_data = 512,
+            max_data = 1024,
             max_depth = 3,
+            show_hidden = 1,
           },
-        },
+          -- Ensure proper connection
+          log = true,
+          -- Force scope refresh
+          supportsVariableType = true,
+          supportsVariablePaging = true,
+          supportsRunInTerminalRequest = true,
+        }
       }
 
       -- DAP UI setup
@@ -88,39 +100,108 @@ return {
             close = { "q", "<Esc>" },
           },
         },
-        element_mappings = {
-          scopes = {
-            edit = "e",
-            repl = "r",
-            toggle = "t",
-          },
-          console = {
-            toggle = "t",
-          },
-          repl = {
-            toggle = "t",
+        -- Enhanced scope configuration
+        controls = {
+          enabled = true,
+          element = "repl",
+          icons = {
+            pause = "⏸",
+            play = "▶",
+            step_into = "⏭",
+            step_over = "⏭",
+            step_out = "⏮",
+            step_back = "⏮",
+            run_last = "🔄",
+            terminate = "⏹",
           },
         },
+        -- Force refresh scopes when stopped
+        force_buffers = true,
       })
 
-      -- DAP Virtual Text setup
+      -- DAP Virtual Text setup (optional - shows variable values inline)
       require("nvim-dap-virtual-text").setup({
         enabled = true,
         enabled_commands = true,
         highlight_changed_variables = true,
-        highlight_new_as_changed = false,
         show_stop_reason = true,
-        commented = false,
         virt_text_pos = "eol",
-        all_frames = true,
-        virt_lines = false,
-        virt_text_win_col = nil,
       })
 
       -- DAP event handlers
       local dapui = require("dapui")
 
-      -- Keybindings for debugging
+      -- Auto-open DAP UI when debugging starts
+      dap.listeners.after.event_initialized["dapui_config"] = function()
+        pcall(dapui.open)
+      end
+
+      dap.listeners.before.event_terminated["dapui_config"] = function()
+        pcall(dapui.close)
+      end
+
+      dap.listeners.before.event_exited["dapui_config"] = function()
+        pcall(dapui.close)
+      end
+
+      -- Add error handling for stopped events
+      dap.listeners.after.event_stopped["dapui_config"] = function()
+        pcall(dapui.open)
+        print("🔍 Debugger stopped at breakpoint")
+        
+        -- Force refresh scopes and variables
+        vim.defer_fn(function()
+          local session = dap.session()
+          if session and session.current_frame then
+            print("📍 Current frame:", session.current_frame.source.name, "line", session.current_frame.line)
+            print("🔗 Session connected:", session.connected and "Yes" or "No")
+            print("🆔 Thread ID:", session.stopped_thread_id or "None")
+            
+            -- Force scope refresh
+            pcall(function()
+              dapui.refresh()
+            end)
+            
+            -- Try to manually request scopes
+            if session.current_frame.id then
+              pcall(function()
+                session:request_scopes(session.current_frame.id, function(err, scopes)
+                  if err then
+                    print("❌ Error requesting scopes:", err.message or err)
+                  else
+                    print("✅ Scopes requested successfully, count:", scopes and #scopes or 0)
+                    if scopes then
+                      for i, scope in ipairs(scopes) do
+                        print("  Scope", i, ":", scope.name, "variables:", scope.variablesReference)
+                      end
+                    end
+                  end
+                end)
+              end)
+            end
+          end
+        end, 200)
+      end
+
+      -- Add connection event handlers
+      dap.listeners.after.event_initialized["connection_debug"] = function()
+        print("🔗 DAP connection initialized")
+        local session = dap.session()
+        if session then
+          print("Session ID:", session.id)
+          print("Connected:", session.connected)
+        end
+      end
+
+      dap.listeners.after.event_terminated["connection_debug"] = function()
+        print("🔌 DAP connection terminated")
+      end
+
+      dap.listeners.after.event_exited["connection_debug"] = function()
+        print("🚪 DAP connection exited")
+      end
+
+      -- Basic keybindings
       vim.keymap.set("n", "<F5>", function()
         dap.continue()
       end, { desc = "Continue" })
@@ -136,334 +217,246 @@ return {
       vim.keymap.set("n", "<leader>b", function()
         dap.toggle_breakpoint()
       end, { desc = "Toggle Breakpoint" })
+      vim.keymap.set("n", "<leader>db", function()
+        dap.toggle_breakpoint()
+      end, { desc = "Toggle Breakpoint" })
       vim.keymap.set("n", "<leader>B", function()
         dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
       end, { desc = "Set Breakpoint" })
-      vim.keymap.set("n", "<leader>lp", function()
-        dap.set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
-      end, { desc = "Log Point Message" })
-      vim.keymap.set("n", "<leader>dR", function()
+      vim.keymap.set("n", "<leader>dr", function()
         dap.repl.open()
-      end, { desc = "Open Debugger" })
+      end, { desc = "Open REPL" })
       vim.keymap.set("n", "<leader>dl", function()
         dap.run_last()
-      end)
+      end, { desc = "Run Last" })
       vim.keymap.set("n", "<leader>dp", function()
-        dap.run(dap.configurations.php[1])
-      end, { desc = "Run PHP Configuration" })
+        local config = dap.configurations.php[1]
+        if not config then
+          print("❌ No PHP debug configuration found")
+          return
+        end
+        
+        print("🚀 Starting PHP debugger...")
+        print("Configuration:", config.name)
+        print("Port:", config.port)
+        print("Path mapping: /var/www/html -> " .. config.pathMappings["/var/www/html"])
+        print("Waiting for Xdebug connection...")
+        
+        -- Use pcall to handle errors
+        local ok, err = pcall(function()
+          dap.run(config)
+        end)
+        
+        if not ok then
+          print("❌ Error starting debugger:", err)
+          print("Try :DapTest to check your setup")
+        end
+      end, { desc = "Start PHP Debug" })
       vim.keymap.set("n", "<leader>dt", function()
         require("dapui").toggle()
-      end, { desc = "UI Toggle" })
+      end, { desc = "Toggle DAP UI" })
 
-      -- Additional debugging helpers
-      vim.keymap.set("n", "<leader>dc", function()
-        dap.clear_breakpoints()
-      end)
-      vim.keymap.set("n", "<leader>ds", function()
-        dap.session()
-      end)
-      vim.keymap.set("n", "<leader>di", function()
-        dap.list_breakpoints()
-      end)
+      -- Simple commands
+      vim.api.nvim_create_user_command("DapSetPath", function(opts)
+        local project_path = opts.args ~= "" and opts.args or vim.fn.getcwd()
+        project_path = vim.fn.fnamemodify(project_path, ":p")
+        
+        print("Setting debug path to:", project_path)
+        
+        dap.configurations.php[1].pathMappings = {
+          ["/var/www/html"] = project_path
+        }
+        
+        print("Path mapping updated: /var/www/html -> " .. project_path)
+      end, { nargs = "?", complete = "dir" })
 
-      -- Variable inspection helpers
-      vim.keymap.set("n", "<leader>dv", function()
-        local dapui = require("dapui")
-        dapui.float_element("scopes", { enter = true })
-      end, { desc = "Open scopes in float" })
-
-      vim.keymap.set("n", "<leader>dw", function()
-        local dapui = require("dapui")
-        dapui.float_element("watches", { enter = true })
-      end, { desc = "Open watches in float" })
-
-      vim.keymap.set("n", "<leader>dr", function()
-        local dapui = require("dapui")
-        dapui.float_element("repl", { enter = true })
-      end, { desc = "Open REPL in float" })
-
-      -- Quick watch variable under cursor
-      vim.keymap.set("n", "<leader>dW", function()
-        local word = vim.fn.expand("<cword>")
-        if word and word ~= "" then
-          dap.set_breakpoint(nil, nil, word)
-          print("Added watch for: " .. word)
+      vim.api.nvim_create_user_command("DapStatus", function()
+        local session = dap.session()
+        if session then
+          print("Debug session active - ID:", session.id)
+          print("Status:", session.stopped_thread_id and "Stopped" or "Running")
+          if session.current_frame then
+            print("Current file:", session.current_frame.source.path)
+            print("Current line:", session.current_frame.line)
+          end
+        else
+          print("No active debug session")
         end
-      end, { desc = "Watch variable under cursor" })
+      end, {})
 
-      -- Inject current scope variables into REPL
-      vim.keymap.set("n", "<leader>di", function()
+      vim.api.nvim_create_user_command("DapStart", function()
+        local config = dap.configurations.php[1]
+        if not config then
+          print("❌ No PHP debug configuration found")
+          return
+        end
+        
+        print("🚀 Starting PHP debugger...")
+        print("Configuration:", config.name)
+        print("Port:", config.port)
+        print("Path mapping: /var/www/html -> " .. config.pathMappings["/var/www/html"])
+        print("Waiting for Xdebug connection...")
+        
+        dap.run(config)
+      end, {})
+
+      vim.api.nvim_create_user_command("DapTest", function()
+        print("=== Testing DAP Setup ===")
+        
+        -- Check if DAP is loaded
+        local dap_ok, dap = pcall(require, "dap")
+        if not dap_ok then
+          print("❌ DAP not loaded")
+          return
+        end
+        print("✅ DAP loaded")
+        
+        -- Check if PHP adapter exists
+        if dap.adapters.php then
+          print("✅ PHP adapter configured")
+          print("  Command:", dap.adapters.php.command)
+          print("  Args:", table.concat(dap.adapters.php.args, " "))
+        else
+          print("❌ PHP adapter not configured")
+        end
+        
+        -- Check if PHP configuration exists
+        if dap.configurations.php and #dap.configurations.php > 0 then
+          print("✅ PHP configuration found")
+          local config = dap.configurations.php[1]
+          print("  Name:", config.name)
+          print("  Port:", config.port)
+          print("  Path mappings:", vim.inspect(config.pathMappings))
+        else
+          print("❌ PHP configuration not found")
+        end
+        
+        -- Check if adapter file exists
+        local adapter_path = os.getenv("HOME") .. "/Code/vscode-php-debug/out/phpDebug.js"
+        if vim.fn.filereadable(adapter_path) == 1 then
+          print("✅ Adapter file exists:", adapter_path)
+        else
+          print("❌ Adapter file not found:", adapter_path)
+        end
+        
+        -- Check leader key
+        print("Leader key:", vim.g.mapleader or "not set")
+        print("Local leader key:", vim.g.maplocalleader or "not set")
+        
+        print("")
+        print("If everything looks good, try <leader>dp or :DapStart to start debugging")
+      end, {})
+
+      vim.api.nvim_create_user_command("DapScopes", function()
         local session = dap.session()
         if not session then
-          print("No active debug session")
+          print("❌ No active debug session")
           return
         end
-
-        -- Get the current frame to access variables
-        local frame = session.current_frame
-        if not frame then
-          print("No current frame available")
-          return
-        end
-
-        -- This is a simplified approach - in practice, you'd need to
-        -- use the DAP protocol to get variables from the current scope
-        print("=== Injecting current scope variables into REPL ===")
-        print("Note: This feature requires the DAP adapter to support")
-        print("variable evaluation in the current scope.")
-        print("")
-        print("For now, use these approaches:")
-        print("1. Use <leader>dv to see variables in scopes pane")
-        print("2. Use watches to monitor specific variables")
-        print("3. Use PHP expressions directly in REPL:")
-        print("   - var_dump($GLOBALS)")
-        print("   - print_r($_SESSION)")
-        print("   - json_encode($object, JSON_PRETTY_PRINT)")
-      end, { desc = "Inject variables into REPL" })
-
-      -- Function to check if we're in a debugging session
-      local function is_debugging()
-        return dap.session() ~= nil
-      end
-
-      -- Auto-open DAP UI when debugging starts
-      dap.listeners.after.event_initialized["dapui_config"] = function()
-        dapui.open()
-        -- Force refresh the current buffer to ensure proper cursor positioning
-        vim.cmd("checktime")
-      end
-
-      dap.listeners.before.event_terminated["dapui_config"] = function()
-        dapui.close()
-      end
-
-      dap.listeners.before.event_exited["dapui_config"] = function()
-        dapui.close()
-      end
-
-      -- Enhanced REPL functionality for PHP debugging
-      local function setup_php_repl()
-        local repl = dap.repl
-
-        -- Add PHP-specific helper functions to REPL
-        local function add_php_helpers()
-          -- Get current scope variables as a PHP array
-          local function get_vars()
-            local session = dap.session()
-            if not session then
-              return "No active debug session"
-            end
-
-            -- This would need to be implemented based on the specific DAP adapter
-            -- For now, we'll provide a template for manual exploration
-            return [[
-// Current scope variables (use these in your expressions):
-// $GLOBALS - Global variables
-// $_GET, $_POST, $_REQUEST - Request variables
-// $_SESSION - Session variables
-// $_COOKIE - Cookie variables
-// $_SERVER - Server variables
-// $_FILES - File upload variables
-// $_ENV - Environment variables
-
-// To explore objects:
-// get_class_methods($object)
-// get_class_vars($object)
-// get_object_vars($object)
-// var_dump($object)
-// print_r($object)
-// json_encode($object, JSON_PRETTY_PRINT)
-                        ]]
+        
+        print("=== Current Debug Session ===")
+        print("Session ID:", session.id)
+        print("Status:", session.stopped_thread_id and "Stopped" or "Running")
+        
+        if session.current_frame then
+          print("Current frame:")
+          print("  File:", session.current_frame.source.path or "unknown")
+          print("  Line:", session.current_frame.line)
+          print("  Function:", session.current_frame.name or "unknown")
+          
+          -- Try to get scopes
+          if session.current_frame.id then
+            print("Frame ID:", session.current_frame.id)
+            print("Attempting to fetch scopes...")
+            
+            -- This is a bit of a hack to trigger scope refresh
+            vim.defer_fn(function()
+              pcall(function()
+                local dapui = require("dapui")
+                dapui.refresh()
+                print("✅ DAP UI refreshed - check the scopes panel")
+              end)
+            end, 100)
           end
-
-          -- Helper to explore object methods
-          local function explore_object()
-            return [[
-// Object exploration helpers:
-// Replace 'object' with your actual variable name
-
-// Get all methods:
-get_class_methods($object)
-
-// Get all properties:
-get_class_vars(get_class($object))
-
-// Get current object properties:
-get_object_vars($object)
-
-// Get parent class:
-get_parent_class($object)
-
-// Check if method exists:
-method_exists($object, 'method_name')
-
-// Check if property exists:
-property_exists($object, 'property_name')
-
-// Get class name:
-get_class($object)
-
-// Get interfaces:
-class_implements($object)
-
-// Get traits:
-class_uses($object)
-                        ]]
-          end
-
-          -- Helper for array/collection exploration
-          local function explore_array()
-            return [[
-// Array/Collection exploration:
-// Replace 'array' with your actual variable name
-
-// Count elements:
-count($array)
-
-// Get keys:
-array_keys($array)
-
-// Get values:
-array_values($array)
-
-// Check if key exists:
-array_key_exists('key', $array)
-
-// Get first element:
-reset($array)
-
-// Get last element:
-end($array)
-
-// Filter array:
-array_filter($array, function($item) { return /* condition */; })
-
-// Map array:
-array_map(function($item) { return /* transformation */; }, $array)
-
-// For collections (Laravel, etc.):
-// $collection->count()
-// $collection->keys()
-// $collection->values()
-// $collection->first()
-// $collection->last()
-// $collection->filter(function($item) { return /* condition */; })
-// $collection->map(function($item) { return /* transformation */; })
-                        ]]
-          end
-
-          return {
-            vars = get_vars,
-            explore = explore_object,
-            array = explore_array,
-          }
+        else
+          print("❌ No current frame")
         end
+      end, {})
 
-        -- Override the default REPL open to add PHP helpers
-        local original_open = repl.open
-        repl.open = function()
-          original_open()
-
-          -- Wait a bit for the REPL to initialize, then add helpers
-          vim.defer_fn(function()
-            local helpers = add_php_helpers()
-
-            -- Add helper commands to the REPL
-            repl.commands = repl.commands or {}
-            repl.commands.vars = function()
-              print(helpers.vars())
-            end
-            repl.commands.explore = function()
-              print(helpers.explore())
-            end
-            repl.commands.array = function()
-              print(helpers.array())
-            end
-
-            print("=== PHP Debug REPL Ready ===")
-            print("Available commands:")
-            print("  :vars    - Show current scope variables")
-            print("  :explore - Show object exploration helpers")
-            print("  :array   - Show array/collection helpers")
-            print("")
-            print("Tip: Use PHP expressions directly in the REPL")
-            print("Example: $my_var, get_class($object), var_dump($array)")
-          end, 100)
-        end
-      end
-
-      -- Initialize enhanced REPL when DAP is loaded
-      setup_php_repl()
-
-      -- Add a command to manually refresh the current buffer
       vim.api.nvim_create_user_command("DapRefresh", function()
-        vim.cmd("checktime")
-        print("Buffer refreshed for debugging")
+        local dapui = require("dapui")
+        pcall(function()
+          dapui.refresh()
+          print("✅ DAP UI refreshed")
+        end)
       end, {})
 
-      -- Add a command to show current path mappings
-      vim.api.nvim_create_user_command("DapPaths", function()
-        local config = dap.configurations.php[1]
-        print("Docker Xdebug Configuration:")
-        print("Port:", config.port)
-        print("Path mappings (Container -> Local):")
-        for container_path, local_path in pairs(config.pathMappings) do
-          print("  " .. container_path .. " -> " .. local_path)
-        end
-      end, {})
-
-      -- Add a command to help debug path mapping issues
-      vim.api.nvim_create_user_command("DapDebugPath", function()
-        local current_file = vim.fn.expand("%:p")
-        local cwd = vim.fn.getcwd()
-        print("Current file:", current_file)
-        print("Working directory:", cwd)
-        print("Relative path from cwd:", vim.fn.fnamemodify(current_file, ":."))
-
-        local config = dap.configurations.php[1]
-        print("\nAvailable container mappings:")
-        for container_path, local_path in pairs(config.pathMappings) do
-          print("  " .. container_path .. " -> " .. local_path)
-          if vim.fn.isdirectory(local_path) == 1 then
-            print("    ✓ Local path exists")
-          else
-            print("    ✗ Local path does not exist")
+      vim.api.nvim_create_user_command("DapLogs", function()
+        print("=== DAP Logs ===")
+        local session = dap.session()
+        if session then
+          print("Session ID:", session.id)
+          print("Connected:", session.connected and "Yes" or "No")
+          print("Stopped Thread ID:", session.stopped_thread_id or "None")
+          if session.current_frame then
+            print("Current Frame ID:", session.current_frame.id or "None")
+            print("Current Frame Name:", session.current_frame.name or "None")
+            print("Current File:", session.current_frame.source.path or "None")
+            print("Current Line:", session.current_frame.line or "None")
           end
+        else
+          print("No active session")
         end
+        
+        -- Try to show DAP logs
+        pcall(function()
+          dap.show_log()
+        end)
       end, {})
 
-      -- Add a help command for debugging
-      vim.api.nvim_create_user_command("DapHelp", function()
-        print("=== PHP Xdebug Debugging Help ===")
-        print("")
-        print("Keybindings:")
-        print("  <F5>          - Continue")
-        print("  <F10>         - Step over")
-        print("  <F11>         - Step into")
-        print("  <F12>         - Step out")
-        print("  <leader>b     - Toggle breakpoint")
-        print("  <leader>B     - Set conditional breakpoint")
-        print("  <leader>lp    - Set log point")
-        print("  <leader>dr    - Open REPL")
-        print("  <leader>dl    - Run last configuration")
-        print("  <leader>dp    - Start listening for Xdebug")
-        print("  <leader>dt    - Toggle DAP UI")
-        print("")
-        print("Variable Inspection:")
-        print("  <leader>dv    - Open scopes in float window")
-        print("  <leader>dw    - Open watches in float window")
-        print("  <leader>dW    - Watch variable under cursor")
-        print("")
-        print("Commands:")
-        print("  :DapPaths     - Show current path mappings")
-        print("  :DapDebugPath - Debug path mapping issues")
-        print("  :DapRefresh   - Refresh buffer for debugging")
-        print("")
-        print("IMPORTANT: Variables in REPL vs Scopes:")
-        print('  - REPL console shows "null" for variables because it runs in a different context')
-        print("  - Use <leader>dv to open scopes pane to see actual variable values")
-        print("  - Use <leader>dw to manage watches for specific variables")
-        print("  - Use <leader>dW to quickly add a watch for the variable under cursor")
+      vim.api.nvim_create_user_command("DapForceScopes", function()
+        local session = dap.session()
+        if not session then
+          print("❌ No active debug session")
+          return
+        end
+        
+        if not session.current_frame or not session.current_frame.id then
+          print("❌ No current frame or frame ID")
+          return
+        end
+        
+        print("🔄 Force requesting scopes for frame:", session.current_frame.id)
+        pcall(function()
+          session:request_scopes(session.current_frame.id, function(err, scopes)
+            if err then
+              print("❌ Error requesting scopes:", err.message or err)
+            else
+              print("✅ Scopes received, count:", scopes and #scopes or 0)
+              if scopes then
+                for i, scope in ipairs(scopes) do
+                  print("  Scope", i, ":", scope.name, "variables:", scope.variablesReference)
+                  
+                  -- Try to get variables for each scope
+                  if scope.variablesReference > 0 then
+                    session:request_variables(scope.variablesReference, function(var_err, variables)
+                      if var_err then
+                        print("    ❌ Error getting variables:", var_err.message or var_err)
+                      else
+                        print("    ✅ Variables count:", variables and #variables or 0)
+                        if variables then
+                          for j, variable in ipairs(variables) do
+                            print("      Variable", j, ":", variable.name, "=", variable.value or "nil")
+                          end
+                        end
+                      end
+                    end)
+                  end
+                end
+              end
+            end
+          end)
+        end)
       end, {})
     end,
   },
