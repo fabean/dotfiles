@@ -29,17 +29,7 @@ if [[ -d "$HOME/.config/zellij" ]]; then
 fi
 
 # Update aerc theme
-if [[ -d "$HOME/.config/aerc" ]]; then
-  # Copy the aerc styleset to the aerc stylesets directory
-  if [[ -f "$THEME_PATH/aerc.ini" ]]; then
-    cp "$THEME_PATH/aerc.ini" "$HOME/.config/aerc/stylesets/$THEME_NAME"
-    # Update aerc.conf to use the new styleset
-    sed -i "s/^styleset-name=.*/styleset-name=$THEME_NAME/" "$HOME/.config/aerc/aerc.conf"
-    echo "Updated aerc theme to $THEME_NAME"
-  else
-    echo "Warning: No aerc.ini found for theme $THEME_NAME - aerc theme not updated"
-  fi
-fi
+omarchy-update-aerc
 
 # Restart components to apply new theme
 omarchy-restart-waybar
