@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# omarchy-theme-random
+# Randomly selects and applies an omarchy theme
+
+THEMES_DIR="$HOME/.config/omarchy/themes"
+
+# Check if themes directory exists
+if [[ ! -d "$THEMES_DIR" ]]; then
+    echo "Error: Themes directory not found at $THEMES_DIR"
+    exit 1
+fi
+
+# Get all available themes
+themes=()
+for theme_dir in "$THEMES_DIR"/*; do
+    if [[ -d "$theme_dir" ]]; then
+        theme_name=$(basename "$theme_dir")
+        themes+=("$theme_name")
+    fi
+done
+
+# Check if we have any themes
+if [[ ${#themes[@]} -eq 0 ]]; then
+    echo "Error: No themes found in $THEMES_DIR"
+    exit 1
+fi
+
+# Select a random theme
+random_index=$((RANDOM % ${#themes[@]}))
+selected_theme="${themes[$random_index]}"
+
+echo "🎲 Randomly selected theme: $selected_theme"
+echo "Applying theme..."
+
+# Run the theme set command
+"$HOME/.local/share/omarchy/bin/omarchy-theme-set" "$selected_theme"
+
+echo "✨ Theme applied: $selected_theme"

@@ -1,0 +1,201 @@
+#!/bin/bash
+
+# omarchy-generate-aerc-styles
+# Automatically generates aerc.ini files for all omarchy themes
+# by analyzing their color schemes from alacritty.toml files
+
+THEMES_DIR="$HOME/.config/omarchy/themes"
+AERC_STYLES_DIR="$HOME/.config/aerc/stylesets"
+
+# Ensure aerc stylesets directory exists
+mkdir -p "$AERC_STYLES_DIR"
+
+# Function to extract color from alacritty.toml
+extract_color() {
+    local file="$1"
+    local key="$2"
+    local default="$3"
+    
+    if [[ -f "$file" ]]; then
+        local color=$(grep -E "^\s*$key\s*=" "$file" | head -1 | sed 's/.*=\s*"\([^"]*\)".*/\1/')
+        if [[ -n "$color" ]]; then
+            echo "$color"
+        else
+            echo "$default"
+        fi
+    else
+        echo "$default"
+    fi
+}
+
+# Function to generate aerc.ini for a theme
+generate_aerc_theme() {
+    local theme_name="$1"
+    local theme_path="$2"
+    local alacritty_file="$theme_path/alacritty.toml"
+    local aerc_file="$theme_path/aerc.ini"
+    
+    echo "Generating aerc theme for: $theme_name"
+    
+    if [[ ! -f "$alacritty_file" ]]; then
+        echo "  Warning: No alacritty.toml found for $theme_name, skipping..."
+        return 1
+    fi
+    
+    # Extract colors from alacritty.toml
+    local bg=$(extract_color "$alacritty_file" "background" "#1a1b26")
+    local fg=$(extract_color "$alacritty_file" "foreground" "#c0caf5")
+    local black=$(extract_color "$alacritty_file" "black" "#262335")
+    local red=$(extract_color "$alacritty_file" "red" "#ff0040")
+    local green=$(extract_color "$alacritty_file" "green" "#8f00ff")
+    local yellow=$(extract_color "$alacritty_file" "yellow" "#f3e70f")
+    local blue=$(extract_color "$alacritty_file" "blue" "#0080ff")
+    local magenta=$(extract_color "$alacritty_file" "magenta" "#ff00ff")
+    local cyan=$(extract_color "$alacritty_file" "cyan" "#03edf9")
+    local white=$(extract_color "$alacritty_file" "white" "#ffffff")
+    
+    # Determine if this is a light or dark theme
+    local is_light=false
+    if [[ "$bg" =~ ^#[fF][0-9a-fA-F]{5}$ ]] || [[ "$bg" =~ ^#[eE][0-9a-fA-F]{5}$ ]]; then
+        is_light=true
+    fi
+    
+    # Generate appropriate colors based on theme type
+    if [[ "$is_light" == "true" ]]; then
+        # Light theme - use darker colors for borders and accents
+        local border_fg=$(echo "$bg" | sed 's/#//' | awk '{printf "#%02x%02x%02x", int("0x" substr($0,1,2))-40, int("0x" substr($0,3,2))-40, int("0x" substr($0,5,2))-40}' 2>/dev/null || echo "#404040")
+        local title_bg="$blue"
+        local title_fg="$bg"
+        local selected_bg="$blue"
+        local selected_fg="$bg"
+    else
+        # Dark theme - use lighter colors for borders and accents
+        local border_fg=$(echo "$bg" | sed 's/#//' | awk '{printf "#%02x%02x%02x", int("0x" substr($0,1,2))+40, int("0x" substr($0,3,2))+40, int("0x" substr($0,5,2))+40}' 2>/dev/null || echo "#c0caf5")
+        local title_bg="$blue"
+        local title_fg="$bg"
+        local selected_bg="$blue"
+        local selected_fg="$bg"
+    fi
+    
+    # Create aerc.ini content
+    cat > "$aerc_file" << EOF
+# vim: ft=dosini
+#
+# aerc $theme_name styleset
+# set styleset-name=$theme_name in 'aerc.conf' to load the style
+#
+
+*.default=true
+*.normal=true
+
+border.fg=$border_fg
+border.bg=$bg
+
+title.fg=$title_fg
+title.bg=$title_bg
+title.bold=true
+
+header.fg=$red
+header.bold=true
+
+tab.fg=$border_fg
+tab.bg=$black
+tab.selected.fg=$title_fg
+tab.selected.bg=$title_bg
+
+statusline_default.fg=$fg
+statusline_default.bg=$black
+statusline_error.fg=$red
+statusline_success.fg=$green
+
+*error.bold=true
+*error.fg=$red
+*warning.fg=$yellow
+*success.fg=$green
+
+dirlist_*.bg=$bg
+dirlist_*.fg=$fg
+dirlist_*.selected.bg=$selected_bg
+dirlist_*.selected.fg=$selected_fg
+
+msglist_*.bg=$bg
+msglist_*.fg=$fg
+msglist_*.selected.bg=$selected_bg
+msglist_*.selected.fg=$selected_fg
+msglist_unread.bold=true
+msglist_unread.fg=$blue
+msglist_marked.fg=$yellow
+msglist_thread_folded.italic=true
+msglist_thread_folded.underline=true
+msglist_gutter.bg=$selected_bg
+msglist_pill.bg=$border_fg
+msglist_pill.reverse=false
+
+part_*.fg=$fg
+part_*.bg=$black
+part_*.selected.fg=$fg
+part_*.selected.bg=$border_fg
+
+completion_default.bg=$black
+completion_default.fg=$fg
+completion_default.selected.bg=$border_fg
+completion_default.selected.fg=$bg
+completion_gutter.bg=$selected_bg
+completion_pill.bg=$border_fg
+completion_pill.reverse=false
+
+spinner.bg=$bg
+spinner.fg=$fg
+
+selector_focused.bold=false
+selector_focused.bg=$selected_bg
+selector_focused.fg=$selected_fg
+selector_chooser.bold=false
+selector_chooser.bg=$selected_bg
+selector_chooser.fg=$selected_fg
+default.selected.bold=false
+default.selected.fg=$selected_fg
+default.selected.bg=$selected_bg
+
+[viewer]
+url.underline=true
+url.fg=$blue
+header.fg=$magenta
+signature.fg=$magenta
+diff_add.fg=$bg
+diff_del.fg=$bg
+diff_meta.bold=true
+diff_chunk.dim=true
+quote_1.fg=$yellow
+quote_2.fg=$green
+quote_3.fg=$cyan
+quote_3.dim=true
+quote_4.fg=$blue
+quote_4.dim=true
+quote_x.fg=$border_fg
+quote_x.dim=true
+EOF
+    
+    echo "  Generated aerc.ini for $theme_name"
+    return 0
+}
+
+# Main execution
+echo "Generating aerc stylesets for all omarchy themes..."
+
+# Find all theme directories
+if [[ -d "$THEMES_DIR" ]]; then
+    for theme_dir in "$THEMES_DIR"/*; do
+        if [[ -d "$theme_dir" ]]; then
+            theme_name=$(basename "$theme_dir")
+            generate_aerc_theme "$theme_name" "$theme_dir"
+        fi
+    done
+else
+    echo "Error: Themes directory not found at $THEMES_DIR"
+    exit 1
+fi
+
+echo ""
+echo "All aerc stylesets have been generated!"
+echo "You can now use 'omarchy-theme-set <theme-name>' to switch themes including aerc."

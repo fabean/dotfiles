@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# omarchy-update-aerc
+# Updates aerc stylesets and applies the current theme
+
+echo "Updating aerc stylesets..."
+
+# Run the generator script
+"$HOME/.local/share/omarchy/bin/omarchy-generate-aerc-styles"
+
+# Get current theme
+CURRENT_THEME=$(readlink "$HOME/.config/omarchy/current/theme" 2>/dev/null | xargs basename)
+
+if [[ -n "$CURRENT_THEME" ]]; then
+    echo "Applying current theme ($CURRENT_THEME) to aerc..."
+    
+    # Copy current theme's aerc.ini to aerc stylesets
+    if [[ -f "$HOME/.config/omarchy/current/theme/aerc.ini" ]]; then
+        cp "$HOME/.config/omarchy/current/theme/aerc.ini" "$HOME/.config/aerc/stylesets/$CURRENT_THEME"
+        
+        # Update aerc.conf to use the current theme
+        sed -i "s/^styleset-name=.*/styleset-name=$CURRENT_THEME/" "$HOME/.config/aerc/aerc.conf"
+        
+        echo "Aerc theme updated to: $CURRENT_THEME"
+    else
+        echo "Warning: No aerc.ini found for current theme ($CURRENT_THEME)"
+    fi
+else
+    echo "Warning: No current theme found"
+fi
+
+echo "Done!"
