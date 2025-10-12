@@ -17,8 +17,8 @@ extract_color() {
     local default="$3"
     
     if [[ -f "$file" ]]; then
-        local color=$(grep -E "^\s*$key\s*=" "$file" | head -1 | sed 's/.*=\s*"\([^"]*\)".*/\1/')
-        if [[ -n "$color" ]]; then
+        local color=$(grep -E "^\s*$key\s*=" "$file" | head -1 | sed 's/.*=\s*['\''"]\([^'\''"]*\)['\''"].*/\1/')
+        if [[ -n "$color" && "$color" != "$key" ]]; then
             echo "$color"
         else
             echo "$default"
